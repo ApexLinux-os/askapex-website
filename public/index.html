@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AskApex AI</title>
     <style>
-        :root
-        {
+        :root {
             --bg0: #070A12;
             --bg1: #0B1220;
             --card: rgba(255, 255, 255, 0.06);
@@ -21,13 +20,11 @@
             --shadow: rgba(0, 0, 0, 0.55);
         }
 
-        *
-        {
+        * {
             box-sizing: border-box;
         }
 
-        html, body
-        {
+        html, body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -40,8 +37,7 @@
             overflow: hidden;
         }
 
-        .page
-        {
+        .page {
             height: 100%;
             display: flex;
             align-items: center;
@@ -49,8 +45,7 @@
             padding: 20px;
         }
 
-        .chat_shell
-        {
+        .chat_shell {
             width: min(960px, 100%);
             height: min(780px, 100%);
             border-radius: 24px;
@@ -65,8 +60,7 @@
             position: relative;
         }
 
-        .header
-        {
+        .header {
             padding: 18px 22px;
             display: flex;
             align-items: center;
@@ -74,16 +68,14 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.10);
         }
 
-        .brand
-        {
+        .brand {
             display: flex;
             align-items: center;
             gap: 12px;
             user-select: none;
         }
 
-        .logo
-        {
+        .logo {
             width: 36px;
             height: 36px;
             border-radius: 12px;
@@ -92,28 +84,24 @@
             box-shadow: 0 10px 30px rgba(124, 92, 255, 0.25);
         }
 
-        .brand_text
-        {
+        .brand_text {
             display: flex;
             flex-direction: column;
             line-height: 1.05;
         }
 
-        .brand_text .name
-        {
+        .brand_text .name {
             font-weight: 700;
             letter-spacing: 0.3px;
             font-size: 14px;
         }
 
-        .brand_text .sub
-        {
+        .brand_text .sub {
             font-size: 12px;
             color: var(--muted2);
         }
 
-        .status
-        {
+        .status {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -121,8 +109,7 @@
             color: var(--muted);
         }
 
-        .dot
-        {
+        .dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -130,32 +117,27 @@
             box-shadow: 0 0 0 6px rgba(22, 240, 200, 0.12);
         }
 
-        .dot.busy
-        {
+        .dot.busy {
             background: rgba(124, 92, 255, 0.95);
             box-shadow: 0 0 0 6px rgba(124, 92, 255, 0.12);
         }
 
-        .body
-        {
+        .body {
             flex: 1;
             overflow: auto;
             padding: 18px 18px 8px 18px;
         }
 
-        .body::-webkit-scrollbar
-        {
+        .body::-webkit-scrollbar {
             width: 10px;
         }
 
-        .body::-webkit-scrollbar-thumb
-        {
+        .body::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.12);
             border-radius: 10px;
         }
 
-        .greeting
-        {
+        .greeting {
             margin: 24px auto 12px auto;
             max-width: 720px;
             padding: 18px 18px;
@@ -164,23 +146,20 @@
             border: 1px solid rgba(255, 255, 255, 0.10);
         }
 
-        .greeting .line1
-        {
+        .greeting .line1 {
             font-size: 18px;
             font-weight: 650;
             margin: 0 0 8px 0;
             letter-spacing: 0.2px;
         }
 
-        .greeting .line2
-        {
+        .greeting .line2 {
             font-size: 13px;
             margin: 0;
             color: var(--muted);
         }
 
-        .messages
-        {
+        .messages {
             max-width: 860px;
             margin: 0 auto;
             display: flex;
@@ -189,24 +168,20 @@
             padding-bottom: 12px;
         }
 
-        .msg_row
-        {
+        .msg_row {
             display: flex;
             width: 100%;
         }
 
-        .msg_row.user
-        {
+        .msg_row.user {
             justify-content: flex-end;
         }
 
-        .msg_row.assistant
-        {
+        .msg_row.assistant {
             justify-content: flex-start;
         }
 
-        .bubble
-        {
+        .bubble {
             max-width: min(760px, 92%);
             padding: 12px 14px;
             border-radius: 18px;
@@ -218,27 +193,23 @@
             font-size: 14px;
         }
 
-        .bubble.user
-        {
+        .bubble.user {
             background: linear-gradient(180deg, rgba(124, 92, 255, 0.22), rgba(124, 92, 255, 0.10));
             border: 1px solid rgba(124, 92, 255, 0.28);
         }
 
-        .bubble.assistant
-        {
+        .bubble.assistant {
             background: linear-gradient(180deg, rgba(22, 240, 200, 0.14), rgba(255, 255, 255, 0.04));
             border: 1px solid rgba(22, 240, 200, 0.22);
         }
 
-        .footer
-        {
+        .footer {
             padding: 14px 14px 16px 14px;
             border-top: 1px solid rgba(255, 255, 255, 0.10);
             background: rgba(0, 0, 0, 0.10);
         }
 
-        .composer
-        {
+        .composer {
             max-width: 860px;
             margin: 0 auto;
             display: flex;
@@ -246,8 +217,7 @@
             align-items: flex-end;
         }
 
-        .input_wrap
-        {
+        .input_wrap {
             flex: 1;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -258,8 +228,7 @@
             align-items: flex-end;
         }
 
-        textarea
-        {
+        textarea {
             flex: 1;
             border: none;
             outline: none;
@@ -274,13 +243,11 @@
             margin: 0;
         }
 
-        textarea::placeholder
-        {
+        textarea::placeholder {
             color: rgba(255, 255, 255, 0.40);
         }
 
-        .btn
-        {
+        .btn {
             border: 1px solid rgba(255, 255, 255, 0.14);
             background: rgba(255, 255, 255, 0.06);
             color: var(--text);
@@ -294,57 +261,48 @@
             min-width: 92px;
         }
 
-        .btn:hover
-        {
+        .btn:hover {
             transform: translateY(-1px);
             background: rgba(255, 255, 255, 0.09);
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        .btn:active
-        {
+        .btn:active {
             transform: translateY(0px);
         }
 
-        .btn.primary
-        {
+        .btn.primary {
             background: linear-gradient(135deg, rgba(124, 92, 255, 0.95), rgba(22, 240, 200, 0.70));
             border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
-        .btn.primary:hover
-        {
+        .btn.primary:hover {
             background: linear-gradient(135deg, rgba(124, 92, 255, 1.00), rgba(22, 240, 200, 0.78));
         }
 
-        .btn.danger
-        {
+        .btn.danger {
             background: rgba(255, 77, 109, 0.14);
             border: 1px solid rgba(255, 77, 109, 0.28);
         }
 
-        .btn.danger:hover
-        {
+        .btn.danger:hover {
             background: rgba(255, 77, 109, 0.20);
             border: 1px solid rgba(255, 77, 109, 0.34);
         }
 
-        .btn:disabled
-        {
+        .btn:disabled {
             opacity: 0.55;
             cursor: not-allowed;
             transform: none;
         }
 
-        .right_controls
-        {
+        .right_controls {
             display: flex;
             gap: 10px;
             align-items: center;
         }
 
-        .hint
-        {
+        .hint {
             max-width: 860px;
             margin: 8px auto 0 auto;
             font-size: 12px;
@@ -354,8 +312,7 @@
             gap: 12px;
         }
 
-        .hint code
-        {
+        .hint code {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
             font-size: 11px;
             color: rgba(255, 255, 255, 0.70);
@@ -439,8 +396,7 @@
                 inputEl.disabled = true;
                 pauseBtn.style.display = "inline-block";
                 pauseBtn.disabled = false;
-            }
-            else
+            } else
             {
                 statusDot.classList.remove("busy");
                 statusText.textContent = "Ready";
@@ -492,7 +448,7 @@
         function buildRequestBody()
         {
             return {
-                "model": "default",
+                "model": "/root/models/qwen3-30B-A3B-GPTQ-Int4",
                 "stream": true,
                 "messages": chatHistory
             };
@@ -509,8 +465,7 @@
             try
             {
                 return JSON.parse(str);
-            }
-            catch (e)
+            } catch (e)
             {
                 return null;
             }
@@ -593,8 +548,7 @@
                     "body": JSON.stringify(reqBody),
                     "signal": activeAbortController.signal
                 });
-            }
-            catch (e)
+            } catch (e)
             {
                 activeAssistantBubble.textContent = "Network error: " + String(e);
                 finalizeAssistantMessage();
@@ -607,8 +561,7 @@
                 try
                 {
                     errText = await resp.text();
-                }
-                catch (e)
+                } catch (e)
                 {
                     errText = "HTTP error";
                 }
@@ -633,7 +586,7 @@
                         break;
                     }
 
-                    buffer += decoder.decode(readResult.value, { "stream": true });
+                    buffer += decoder.decode(readResult.value, {"stream": true});
 
                     var lines = decodeSseLines(buffer);
                     buffer = lines.pop();
@@ -669,8 +622,7 @@
                         }
                     }
                 }
-            }
-            catch (e)
+            } catch (e)
             {
                 if (String(e).includes("AbortError"))
                 {
@@ -695,8 +647,7 @@
                     "role": "assistant",
                     "content": activeAssistantText
                 });
-            }
-            else
+            } else
             {
                 if (activeAssistantBubble && activeAssistantBubble.textContent.trim().length > 0)
                 {
