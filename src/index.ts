@@ -9,6 +9,15 @@ export default {
         console.log("request", {method: request.method, url: url.href, pathname: url.pathname, query: url.search, clientIp: clientIp ?? "unknown", country: request.cf?.country ?? "unknown", colo: request.cf?.colo ?? "unknown", asn: request.cf?.asn ?? "unknown", userAgent: request.headers.get("User-Agent") ?? "unknown", rayId});
         if (url.pathname === "/v1/chat/completions" || url.pathname === "/v1/models")
         {
+            // const targetUrl = new URL(`http://192.168.200.2:8001${url.pathname}${url.search}`);
+            // const proxyRequest = new Request(targetUrl, {
+            //     method: request.method,
+            //     headers: request.headers,
+            //     body: request.body,
+            // });
+            //
+            // const response = await env.VPC_SERVICE.fetch(proxyRequest);
+            // return response;
             var upstreamUrl = new URL(request.url);
             upstreamUrl.hostname = "192.168.200.2";
             upstreamUrl.protocol = "http:";
@@ -41,7 +50,7 @@ export default {
                     redirect: "manual"
                 };
 
-            var upstreamResp = await fetch(upstreamUrl.toString(), init);
+            var upstreamResp = await env.VPC_SERVICE.fetch(upstreamUrl.toString(), init);
 
             var respHeaders = new Headers(upstreamResp.headers);
 
