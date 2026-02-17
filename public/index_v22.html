@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskApex — AI-Powered Crypto Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════════
+           DESIGN TOKENS
+        ═══════════════════════════════════════════════════════ */
+        :root {
+            --bg:          #05060e;
+            --bg2:         #0a0d1a;
+            --bg3:         #0f1224;
+            --surface:     rgba(15,18,36,0.80);
+            --surface2:    rgba(22,27,54,0.72);
+            --border:      rgba(99,102,241,0.16);
+            --border-hi:   rgba(99,102,241,0.42);
+            --accent:      #6366f1;
+            --accent2:     #818cf8;
+            --glow:        rgba(99,102,241,0.26);
+            --purple:      #7c3aed;
+            --green:       #10b981;
+            --red:         #f43f5e;
+            --text:        #eef0ff;
+            --text2:       #9ba3c4;
+            --text3:       #4b5480;
+            --font:        "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+            --mono:        "JetBrains Mono","Fira Code",Consolas,monospace;
+            --r-sm: 8px; --r-md: 14px; --r-lg: 22px; --r-xl: 32px; --r-full: 9999px;
+            --ease:   cubic-bezier(0.4,0,0.2,1);
+            --ease-o: cubic-bezier(0,0,0.2,1);
+            --spring: cubic-bezier(0.34,1.56,0.64,1);
+            --t: 0.22s;
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           RESET + BASE
+        ═══════════════════════════════════════════════════════ */
+        *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+        html { scroll-behavior:smooth; }
+        body {
+            background:var(--bg); color:var(--text);
+            font-family:var(--font); font-size:16px; line-height:1.6;
+            overflow-x:hidden; -webkit-font-smoothing:antialiased;
+        }
+        h1 { font-size:clamp(2.4rem,5vw + .5rem,5rem); font-weight:800; line-height:1.15; letter-spacing:-.03em; }
+        h2 { font-size:clamp(1.8rem,3vw + .3rem,3rem); font-weight:700; line-height:1.2; letter-spacing:-.025em; }
+        h3 { font-size:clamp(1.05rem,1.2vw + .1rem,1.35rem); font-weight:600; line-height:1.3; letter-spacing:-.015em; }
+        a  { color:inherit; text-decoration:none; }
+        button { cursor:pointer; font-family:inherit; }
+        img,svg { display:block; max-width:100%; }
+        ::-webkit-scrollbar { width:5px; height:5px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:var(--border-hi); border-radius:99px; }
+        * { scrollbar-width:thin; scrollbar-color:var(--border-hi) transparent; }
+        :focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:var(--r-sm); }
+
+        /* ═══════════════════════════════════════════════════════
+           LAYOUT UTILS
+        ═══════════════════════════════════════════════════════ */
+        .wrap     { width:100%; max-width:1180px; margin:0 auto; padding:0 24px; }
+        .wrap--sm { max-width:780px; }
+        .wrap--lg { max-width:1360px; }
+        .grad {
+            background:linear-gradient(135deg,var(--accent2) 0%,#c4b5fd 50%,var(--accent) 100%);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+        }
+        .glass {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--r-lg); backdrop-filter:blur(20px);
+        }
+
+        /* BUTTONS */
+        .btn {
+            display:inline-flex; align-items:center; gap:8px;
+            padding:12px 24px; font-size:.9rem; font-weight:600;
+            border:none; border-radius:var(--r-full);
+            transition:all var(--t) var(--ease); white-space:nowrap;
+        }
+        .btn:active { transform:scale(.97); }
+        .btn-primary {
+            background:linear-gradient(135deg,var(--accent),var(--purple));
+            color:#fff; box-shadow:0 4px 20px var(--glow);
+        }
+        .btn-primary:hover { box-shadow:0 6px 28px rgba(99,102,241,.5); transform:translateY(-1px); }
+        .btn-outline { background:transparent; color:var(--text); border:1px solid var(--border-hi); }
+        .btn-outline:hover { background:rgba(99,102,241,.08); border-color:var(--accent); }
+        .btn-ghost { background:transparent; color:var(--text2); border:1px solid transparent; }
+        .btn-ghost:hover { color:var(--text); border-color:var(--border-hi); background:rgba(99,102,241,.07); }
+        .btn-lg { padding:14px 32px; font-size:1rem; }
+
+        /* BADGE */
+        .badge {
+            display:inline-flex; align-items:center; gap:7px;
+            padding:4px 14px; font-size:.72rem; font-weight:700;
+            letter-spacing:.07em; text-transform:uppercase;
+            background:rgba(99,102,241,.1); border:1px solid var(--border-hi);
+            border-radius:var(--r-full); color:var(--accent2);
+        }
+        .badge-dot { width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); }
+
+        /* SECTION HEADER */
+        .sh { text-align:center; margin-bottom:64px; }
+        .sh .badge { margin-bottom:20px; }
+        .sh p { font-size:clamp(1rem,1.1vw+.2rem,1.15rem); color:var(--text2); max-width:560px; margin:12px auto 0; line-height:1.75; }
+
+        /* ═══════════════════════════════════════════════════════
+           AMBIENT BACKGROUND
+        ═══════════════════════════════════════════════════════ */
+        body::before {
+            content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+            background:
+                    radial-gradient(ellipse 80% 60% at 10% 10%, rgba(99,102,241,.10) 0%,transparent 60%),
+                    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(124,58,237,.08) 0%,transparent 60%);
+        }
+        .mesh {
+            position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0;
+        }
+        .mesh::before,.mesh::after {
+            content:""; position:absolute; border-radius:50%;
+            filter:blur(90px); opacity:.12;
+            animation:drift 14s ease-in-out infinite alternate;
+        }
+        .mesh::before {
+            width:700px; height:700px; top:-250px; left:-150px;
+            background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+        }
+        .mesh::after {
+            width:600px; height:600px; top:-200px; right:-100px;
+            background:radial-gradient(circle,var(--purple) 0%,transparent 70%);
+            animation-delay:-7s;
+        }
+        @keyframes drift { to { transform:translate(50px,40px) scale(1.12); } }
+
+        /* ═══════════════════════════════════════════════════════
+           STICKY NAV
+        ═══════════════════════════════════════════════════════ */
+        #nav {
+            position:fixed; top:0; left:0; right:0; z-index:900;
+            padding:14px 0;
+            transition:background .3s,box-shadow .3s,backdrop-filter .3s,opacity .4s;
+        }
+        #nav.scrolled {
+            background:rgba(5,6,14,.88); backdrop-filter:blur(20px);
+            box-shadow:0 1px 0 var(--border);
+        }
+        .nav-inner { display:flex; align-items:center; gap:24px; }
+        .nav-logo {
+            display:flex; align-items:center; gap:9px;
+            font-weight:800; font-size:1.05rem; letter-spacing:-.03em; flex-shrink:0;
+        }
+        .nav-logo-ico {
+            width:34px; height:34px; border-radius:10px; flex-shrink:0;
+            background:linear-gradient(135deg,var(--accent),var(--purple));
+            display:flex; align-items:center; justify-content:center;
+            font-size:16px; box-shadow:0 0 16px var(--glow);
+        }
+        .nav-logo span { color:var(--accent2); }
+        .nav-links {
+            display:flex; list-style:none; gap:28px; flex:1; justify-content:center;
+        }
+        .nav-links a { font-size:.875rem; font-weight:500; color:var(--text2); transition:color .2s; }
+        .nav-links a:hover { color:var(--text); }
+        .nav-cta { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+
+        /* ═══════════════════════════════════════════════════════
+           LANDING PAGE WRAPPER
+        ═══════════════════════════════════════════════════════ */
+        #landing {
+            position:relative; z-index:1;
+            transition:opacity .5s var(--ease), visibility .5s;
+        }
+        body.chat-open #landing { opacity:0; visibility:hidden; pointer-events:none; }
+        body.chat-open #nav     { opacity:0; pointer-events:none; }
+
+        /* ═══════════════════════════════════════════════════════
+           HERO
+        ═══════════════════════════════════════════════════════ */
+        #hero {
+            position:relative; min-height:100vh;
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            padding:120px 24px 80px; text-align:center; overflow:hidden;
+        }
+        .hero-eyebrow { margin-bottom:24px; }
+        .hero-h1 { margin-bottom:20px; max-width:860px; }
+        .hero-sub {
+            font-size:clamp(1rem,1.3vw+.2rem,1.22rem); color:var(--text2); line-height:1.75;
+            max-width:520px; margin:0 auto 36px;
+        }
+        .hero-btns { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:56px; }
+
+        /* ── Hero Chat Input (centred, lives on landing) ── */
+        .hero-chat {
+            width:100%; max-width:680px; margin:0 auto 28px; position:relative; z-index:5;
+        }
+        .hero-chat-box {
+            display:flex; align-items:flex-end; gap:8px;
+            padding:10px 10px 10px 20px;
+            background:var(--surface2); border:1px solid var(--border-hi);
+            border-radius:var(--r-xl); backdrop-filter:blur(20px);
+            box-shadow:0 0 0 1px rgba(99,102,241,.05),0 24px 64px rgba(0,0,0,.45);
+            transition:border-color .2s,box-shadow .2s;
+        }
+        .hero-chat-box:focus-within {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px var(--glow),0 24px 64px rgba(0,0,0,.5);
+        }
+        .hero-chat-box textarea {
+            flex:1; background:none; border:none; outline:none; resize:none;
+            color:var(--text); font-family:var(--font); font-size:.95rem;
+            line-height:1.55; min-height:28px; max-height:140px; overflow-y:auto;
+            padding:8px 0;
+        }
+        .hero-chat-box textarea::placeholder { color:var(--text3); }
+        .hero-send-btn {
+            flex-shrink:0; width:42px; height:42px; border-radius:50%; border:none;
+            background:linear-gradient(135deg,var(--accent),var(--purple));
+            color:#fff; font-size:15px; display:flex; align-items:center; justify-content:center;
+            box-shadow:0 4px 16px var(--glow);
+            transition:transform .2s var(--spring),box-shadow .2s;
+        }
+        .hero-send-btn:hover { transform:scale(1.09); box-shadow:0 6px 22px rgba(99,102,241,.55); }
+        .hero-hints {
+            display:flex; justify-content:center; flex-wrap:wrap; gap:20px;
+            font-size:.78rem; color:var(--text3);
+        }
+        .hero-hints span { display:flex; align-items:center; gap:6px; }
+        .hero-hints span::before { content:""; width:4px; height:4px; border-radius:50%; background:var(--text3); }
+
+        /* ── Product Mock Visual ── */
+        .hero-mock-wrap {
+            width:100%; max-width:860px; margin:20px auto 0;
+            position:relative; z-index:2;
+        }
+        .hero-mock {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--r-xl); overflow:hidden;
+            box-shadow:0 32px 96px rgba(0,0,0,.5),0 0 0 1px rgba(99,102,241,.06);
+            transform:perspective(1200px) rotateX(3deg) translateY(0);
+            transition:transform .4s var(--ease);
+        }
+        .hero-mock:hover { transform:perspective(1200px) rotateX(0deg) translateY(-4px); }
+        .mock-bar {
+            display:flex; align-items:center; gap:12px; padding:12px 18px;
+            background:rgba(0,0,0,.35); border-bottom:1px solid var(--border);
+        }
+        .mock-dots { display:flex; gap:7px; }
+        .mock-dots i { display:block; width:11px; height:11px; border-radius:50%; }
+        .mock-dots i:nth-child(1){background:#ff5f57}
+        .mock-dots i:nth-child(2){background:#febc2e}
+        .mock-dots i:nth-child(3){background:#28c840}
+        .mock-bar-url { flex:1; text-align:center; font-family:var(--mono); font-size:.72rem; color:var(--text3); }
+        .mock-body { padding:24px; display:flex; flex-direction:column; gap:14px; }
+        .mock-row { display:flex; gap:12px; }
+        .mock-row.user { justify-content:flex-end; }
+        .mock-av {
+            width:28px; height:28px; border-radius:50%; flex-shrink:0; font-size:12px;
+            display:flex; align-items:center; justify-content:center; margin-top:2px;
+        }
+        .mock-av.ai-av { background:linear-gradient(135deg,var(--accent),var(--purple)); }
+        .mock-av.user-av { background:rgba(99,102,241,.2); border:1px solid var(--border-hi); font-size:11px; }
+        .mock-bub {
+            padding:10px 15px; border-radius:var(--r-md); font-size:.82rem; line-height:1.65; max-width:80%;
+        }
+        .mock-bub.ai  { background:rgba(255,255,255,.04); border:1px solid var(--border); border-bottom-left-radius:4px; color:var(--text2); }
+        .mock-bub.user{ background:rgba(99,102,241,.15); border:1px solid var(--border-hi); border-bottom-right-radius:4px; color:#c7d2fe; }
+        .mock-bub code { font-family:var(--mono); font-size:.8rem; background:rgba(99,102,241,.15); padding:1px 6px; border-radius:4px; color:var(--accent2); }
+        .mock-bub strong { color:var(--text); }
+
+        /* ═══════════════════════════════════════════════════════
+           SOCIAL PROOF
+        ═══════════════════════════════════════════════════════ */
+        #social {
+            padding:56px 0;
+            border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+            position:relative; z-index:1;
+        }
+        .social-label { text-align:center; font-size:.73rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text3); margin-bottom:28px; }
+        .social-logos { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:40px 56px; }
+        .social-logo { font-size:.95rem; font-weight:800; letter-spacing:-.02em; color:var(--text3); opacity:.55; transition:opacity .2s; white-space:nowrap; }
+        .social-logo:hover { opacity:.9; }
+
+        /* ═══════════════════════════════════════════════════════
+           FEATURES
+        ═══════════════════════════════════════════════════════ */
+        #features { padding:100px 0; position:relative; z-index:1; }
+        .features-grid {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px;
+        }
+        .feat-card {
+            padding:32px; background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--r-lg); position:relative; overflow:hidden;
+            transition:border-color .25s,transform .25s var(--ease),box-shadow .25s;
+        }
+        .feat-card::after {
+            content:""; position:absolute; top:0; left:0; right:0; height:1px;
+            background:linear-gradient(90deg,transparent,var(--accent),transparent);
+            opacity:0; transition:opacity .3s;
+        }
+        .feat-card:hover { border-color:var(--border-hi); transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,.35),0 0 30px rgba(99,102,241,.06); }
+        .feat-card:hover::after { opacity:1; }
+        .feat-ico {
+            width:50px; height:50px; border-radius:var(--r-md); margin-bottom:20px;
+            background:rgba(99,102,241,.1); border:1px solid var(--border);
+            display:flex; align-items:center; justify-content:center; font-size:22px;
+        }
+        .feat-card h3 { margin-bottom:10px; }
+        .feat-card p { color:var(--text2); font-size:.925rem; line-height:1.75; }
+
+        /* ═══════════════════════════════════════════════════════
+           HOW IT WORKS
+        ═══════════════════════════════════════════════════════ */
+        #how { padding:100px 0; position:relative; z-index:1; }
+        .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; position:relative; }
+        .steps::before {
+            content:""; position:absolute; top:23px;
+            left:calc(12.5% + 22px); right:calc(12.5% + 22px); height:1px;
+            background:linear-gradient(90deg,var(--border),var(--border-hi),var(--border));
+        }
+        .step { text-align:center; padding:24px 16px; }
+        .step-num {
+            width:46px; height:46px; border-radius:50%; margin:0 auto 18px;
+            background:linear-gradient(135deg,var(--accent),var(--purple));
+            display:flex; align-items:center; justify-content:center;
+            font-size:.95rem; font-weight:700; color:#fff;
+            box-shadow:0 0 22px var(--glow); position:relative; z-index:1;
+        }
+        .step h3 { margin-bottom:8px; font-size:1rem; }
+        .step p { color:var(--text2); font-size:.88rem; line-height:1.7; }
+
+        /* ═══════════════════════════════════════════════════════
+           TESTIMONIALS
+        ═══════════════════════════════════════════════════════ */
+        #testimonials { padding:100px 0; position:relative; z-index:1; }
+        .testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+        .testi-card {
+            padding:32px; background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--r-lg); position:relative;
+            transition:border-color .25s,transform .25s;
+        }
+        .testi-card:hover { border-color:var(--border-hi); transform:translateY(-3px); }
+        .testi-card::after {
+            content:"\201C"; position:absolute; top:16px; right:20px;
+            font-size:5rem; line-height:1; color:var(--accent); opacity:.12; font-family:Georgia,serif;
+        }
+        .stars { color:#fbbf24; font-size:.78rem; letter-spacing:3px; margin-bottom:14px; }
+        .testi-text { font-size:.925rem; color:var(--text2); line-height:1.8; margin-bottom:20px; }
+        .testi-author { display:flex; align-items:center; gap:12px; }
+        .t-av {
+            width:40px; height:40px; border-radius:50%; flex-shrink:0;
+            background:linear-gradient(135deg,var(--accent),var(--purple));
+            display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.9rem;
+        }
+        .t-name { font-weight:600; font-size:.875rem; }
+        .t-role { font-size:.78rem; color:var(--text3); }
+
+        /* ═══════════════════════════════════════════════════════
+           PRICING
+        ═══════════════════════════════════════════════════════ */
+        #pricing { padding:100px 0; position:relative; z-index:1; }
+        .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; align-items:start; }
+        .p-card {
+            padding:32px; background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--r-lg); transition:transform .25s,box-shadow .25s;
+        }
+        .p-card:hover { transform:translateY(-4px); box-shadow:0 16px 48px rgba(0,0,0,.35); }
+        .p-card.featured {
+            border-color:var(--border-hi); position:relative;
+            background:linear-gradient(160deg,rgba(99,102,241,.12) 0%,var(--surface) 70%);
+            box-shadow:0 0 0 1px var(--border-hi),0 20px 56px rgba(0,0,0,.35),0 0 48px rgba(99,102,241,.07);
+        }
+        .p-popular {
+            position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+            background:linear-gradient(135deg,var(--accent),var(--purple));
+            color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.06em;
+            padding:3px 14px; border-radius:var(--r-full); white-space:nowrap;
+        }
+        .p-tier { font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); margin-bottom:12px; }
+        .p-price { font-size:2.8rem; font-weight:800; letter-spacing:-.04em; line-height:1; margin-bottom:8px; }
+        .p-price sup { font-size:1.1rem; vertical-align:super; margin-right:2px; font-weight:600; }
+        .p-price .mo { font-size:.95rem; font-weight:400; color:var(--text2); }
+        .p-desc { font-size:.875rem; color:var(--text2); margin-bottom:20px; line-height:1.55; }
+        .p-hr { height:1px; background:var(--border); margin:20px 0; }
+        .p-feats { list-style:none; margin-bottom:24px; display:flex; flex-direction:column; gap:10px; }
+        .p-feats li { display:flex; align-items:flex-start; gap:10px; font-size:.875rem; color:var(--text2); }
+        .p-feats li::before { content:"✓"; color:var(--green); font-weight:700; flex-shrink:0; }
+        .p-feats li.off { opacity:.38; }
+        .p-feats li.off::before { content:"✕"; color:var(--text3); }
+        .p-cta { width:100%; justify-content:center; }
+
+        /* ═══════════════════════════════════════════════════════
+           FAQ
+        ═══════════════════════════════════════════════════════ */
+        #faq { padding:100px 0; position:relative; z-index:1; }
+        .faq-list { max-width:700px; margin:0 auto; display:flex; flex-direction:column; gap:10px; }
+        .faq-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; transition:border-color .2s; }
+        .faq-item.open { border-color:var(--border-hi); }
+        .faq-q {
+            width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;
+            padding:20px 22px; background:none; border:none; color:var(--text);
+            font-size:.95rem; font-weight:600; text-align:left; cursor:pointer; font-family:inherit;
+            transition:color .2s;
+        }
+        .faq-q:hover { color:var(--accent2); }
+        .faq-chevron { color:var(--text3); font-size:.7rem; transition:transform .3s var(--ease); flex-shrink:0; }
+        .faq-item.open .faq-chevron { transform:rotate(180deg); }
+        .faq-a { max-height:0; overflow:hidden; transition:max-height .38s var(--ease-o); padding:0 22px; }
+        .faq-item.open .faq-a { max-height:320px; padding-bottom:20px; }
+        .faq-a p { font-size:.9rem; color:var(--text2); line-height:1.8; }
+
+        /* ═══════════════════════════════════════════════════════
+           FINAL CTA
+        ═══════════════════════════════════════════════════════ */
+        #cta { padding:100px 24px; text-align:center; position:relative; z-index:1; }
+        .cta-box {
+            max-width:680px; margin:0 auto; padding:72px 48px;
+            background:linear-gradient(160deg,rgba(99,102,241,.14) 0%,rgba(124,58,237,.07) 100%);
+            border:1px solid var(--border-hi); border-radius:var(--r-xl);
+            box-shadow:0 0 80px rgba(99,102,241,.09),inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        .cta-box h2 { margin-bottom:16px; }
+        .cta-box p { color:var(--text2); margin-bottom:32px; max-width:460px; margin-left:auto; margin-right:auto; }
+        .cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+        /* ═══════════════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════════════ */
+        footer { padding:48px 0 28px; border-top:1px solid var(--border); position:relative; z-index:1; }
+        .foot-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+        .foot-copy { font-size:.82rem; color:var(--text3); }
+        .foot-links { display:flex; gap:24px; flex-wrap:wrap; }
+        .foot-links a { font-size:.82rem; color:var(--text3); transition:color .2s; }
+        .foot-links a:hover { color:var(--text2); }
+
+        /* ═══════════════════════════════════════════════════════
+           CHAT OVERLAY  ←  THE MAIN INTERACTION
+        ═══════════════════════════════════════════════════════ */
+        #chat-overlay {
+            position:fixed; inset:0; z-index:800;
+            background:var(--bg);
+            display:flex; flex-direction:column;
+            opacity:0; visibility:hidden;
+            transition:opacity .45s var(--ease), visibility .45s;
+        }
+        #chat-overlay.open { opacity:1; visibility:visible; }
+
+        /* Chat top bar */
+        .cnav {
+            flex-shrink:0; display:flex; align-items:center; gap:16px; padding:14px 20px;
+            border-bottom:1px solid var(--border);
+            background:rgba(5,6,14,.9); backdrop-filter:blur(20px);
+        }
+        .cnav-logo { display:flex; align-items:center; gap:8px; font-weight:800; font-size:1rem; letter-spacing:-.03em; }
+        .cnav-logo .nav-logo-ico { width:30px; height:30px; font-size:14px; }
+        .cnav-logo span { color:var(--accent2); }
+        .cnav-spacer { flex:1; }
+        .cnav-back {
+            display:flex; align-items:center; gap:6px; padding:6px 14px;
+            background:rgba(99,102,241,.07); border:1px solid var(--border);
+            border-radius:var(--r-full); color:var(--text2); font-size:.78rem; font-weight:500;
+            transition:all .2s;
+        }
+        .cnav-back:hover { background:rgba(99,102,241,.14); color:var(--text); border-color:var(--border-hi); }
+
+        /* ── Chat main: this holds greeting + messages + input ── */
+        #chat-main {
+            flex:1; display:flex; flex-direction:column; overflow:hidden; position:relative;
+        }
+
+        /* ── Greeting (shown before first message) ── */
+        #chat-greeting {
+            position:absolute; top:50%; left:50%;
+            transform:translate(-50%, -58%); /* -58% to visually center accounting for input below */
+            width:100%; padding:0 24px; text-align:center; z-index:2;
+            pointer-events:none;
+            transition:opacity .35s var(--ease), transform .35s var(--ease);
+        }
+        #chat-overlay.has-msgs #chat-greeting {
+            opacity:0; transform:translate(-50%,-78%); pointer-events:none;
+        }
+        .cg-icon {
+            font-size:52px; margin-bottom:20px;
+            filter:drop-shadow(0 0 28px var(--glow));
+            animation:float 4.5s ease-in-out infinite;
+        }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+        #chat-greeting h2 { font-size:clamp(1.3rem,3vw,2rem); margin-bottom:10px; }
+        #chat-greeting p { font-size:.9rem; color:var(--text2); max-width:400px; margin:0 auto; }
+
+        /* ── Messages scrollable ── */
+        #chat-msgs {
+            flex:1; overflow-y:auto; padding:24px 20px 12px;
+            opacity:0; transition:opacity .35s .1s;
+        }
+        #chat-overlay.has-msgs #chat-msgs { opacity:1; }
+        .msgs-inner { max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+
+        /* Message rows */
+        .cmsg { display:flex; gap:10px; animation:msg-in .28s var(--ease-o); }
+        @keyframes msg-in { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        .cmsg.user { flex-direction:row-reverse; }
+        .cmsg-av {
+            width:32px; height:32px; border-radius:50%; flex-shrink:0; font-size:14px;
+            display:flex; align-items:center; justify-content:center; margin-top:2px;
+        }
+        .cmsg-av.ai-av   { background:linear-gradient(135deg,var(--accent),var(--purple)); box-shadow:0 0 12px var(--glow); }
+        .cmsg-av.user-av { background:rgba(99,102,241,.18); border:1px solid var(--border-hi); font-size:12px; }
+        .cmsg-bub {
+            max-width:75%; padding:12px 16px; border-radius:var(--r-lg);
+            font-size:.935rem; line-height:1.7; word-break:break-word; white-space:pre-wrap;
+        }
+        .cmsg.user .cmsg-bub {
+            background:rgba(99,102,241,.16); border:1px solid var(--border-hi);
+            border-bottom-right-radius:5px; color:#c7d2fe;
+        }
+        .cmsg.ai .cmsg-bub {
+            background:rgba(255,255,255,.03); border:1px solid var(--border);
+            border-bottom-left-radius:5px; color:var(--text);
+        }
+        .cmsg-bub code {
+            font-family:var(--mono); font-size:.82rem;
+            background:rgba(99,102,241,.12); border:1px solid rgba(99,102,241,.2);
+            border-radius:5px; padding:1px 6px; color:var(--accent2);
+        }
+        .cmsg-bub pre {
+            background:rgba(0,0,0,.45); border:1px solid rgba(99,102,241,.14);
+            border-radius:var(--r-md); padding:14px 16px; margin:10px 0;
+            overflow-x:auto; font-family:var(--mono); font-size:.81rem; line-height:1.6; color:#c4b5fd;
+        }
+        .cmsg-bub pre code { background:none; border:none; padding:0; color:inherit; }
+
+        /* Streaming cursor */
+        .cur {
+            display:inline-block; width:2px; height:1em;
+            background:var(--accent2); margin-left:2px; border-radius:2px;
+            vertical-align:text-bottom; animation:blink .85s step-end infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        /* ── Chat input zone — KEY: always at bottom, style changes ── */
+        #chat-input-zone {
+            flex-shrink:0;
+            display:flex; flex-direction:column; align-items:center; gap:8px;
+            padding:16px 20px 20px;
+            border-top:1px solid transparent;
+            background:transparent;
+            transition:border-color .4s var(--ease), background .4s;
+        }
+        #chat-overlay.has-msgs #chat-input-zone {
+            border-top-color:var(--border);
+            background:rgba(5,6,14,.88);
+            backdrop-filter:blur(20px);
+        }
+        .chat-ibox {
+            width:100%; max-width:780px;
+            display:flex; align-items:flex-end; gap:8px;
+            padding:10px 10px 10px 20px;
+            background:var(--surface2); border:1px solid var(--border-hi);
+            border-radius:var(--r-xl); backdrop-filter:blur(20px);
+            box-shadow:0 0 0 1px rgba(99,102,241,.04),0 20px 56px rgba(0,0,0,.45);
+            transition:border-color .2s,box-shadow .2s;
+        }
+        .chat-ibox:focus-within {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px var(--glow),0 20px 56px rgba(0,0,0,.5);
+        }
+        .chat-ibox textarea {
+            flex:1; background:none; border:none; outline:none; resize:none;
+            color:var(--text); font-family:var(--font); font-size:.935rem;
+            line-height:1.55; min-height:28px; max-height:160px; overflow-y:auto; padding:7px 0;
+        }
+        .chat-ibox textarea::placeholder { color:var(--text3); }
+        .chat-ibox textarea:disabled { opacity:.45; }
+        .c-send,.c-pause {
+            flex-shrink:0; width:42px; height:42px; border-radius:50%; border:none;
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-size:15px;
+            transition:transform .2s var(--spring), box-shadow .2s, opacity .2s;
+        }
+        .c-send { background:linear-gradient(135deg,var(--accent),var(--purple)); box-shadow:0 4px 16px var(--glow); }
+        .c-send:hover:not(:disabled) { transform:scale(1.09); box-shadow:0 6px 22px rgba(99,102,241,.55); }
+        .c-send:disabled { opacity:.35; cursor:not-allowed; transform:none; }
+        .c-pause { background:linear-gradient(135deg,var(--red),#be123c); box-shadow:0 4px 16px rgba(244,63,94,.32); display:none; }
+        .c-pause:hover { transform:scale(1.08); }
+        .c-pause.on { display:flex; }
+        .chat-hint-txt { font-size:.75rem; color:var(--text3); }
+
+        /* Suggestion chips (Phase 2) */
+        .chips-row { display:flex; flex-wrap:wrap; gap:7px; padding:6px 0 2px 42px; animation:msg-in .4s ease; }
+        .s-chip {
+            padding:5px 13px; font-size:.78rem;
+            background:rgba(99,102,241,.08); border:1px solid var(--border-hi);
+            border-radius:var(--r-full); color:var(--accent2); cursor:pointer;
+            transition:background .2s,transform .2s var(--spring);
+        }
+        .s-chip:hover { background:rgba(99,102,241,.18); transform:translateY(-2px); }
+
+        /* ═══════════════════════════════════════════════════════
+           SCROLL REVEAL
+        ═══════════════════════════════════════════════════════ */
+        .rev { opacity:0; transform:translateY(22px); transition:opacity .65s var(--ease-o),transform .65s var(--ease-o); }
+        .rev.in { opacity:1; transform:translateY(0); }
+        .rev-d1{transition-delay:.1s} .rev-d2{transition-delay:.2s}
+        .rev-d3{transition-delay:.3s} .rev-d4{transition-delay:.4s}
+        .rev-d5{transition-delay:.5s}
+
+        @media (prefers-reduced-motion:reduce) {
+            *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+            .rev { opacity:1 !important; transform:none !important; }
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════════════ */
+        @media (max-width:768px) {
+            .nav-links,.nav-cta .btn-ghost { display:none; }
+            .hero-mock-wrap { display:none; }
+            .steps::before { display:none; }
+            .cta-box { padding:48px 24px; }
+            .foot-inner { flex-direction:column; }
+            .cmsg-bub { max-width:88%; }
+        }
+        @media (max-width:480px) {
+            .hero-btns .btn { font-size:.85rem; padding:11px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════
+     STICKY NAV
+═══════════════════════════════════════════ -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+        <a href="#" class="nav-logo" aria-label="AskApex Home">
+            <div class="nav-logo-ico">⬡</div>
+            <span>Ask<span>Apex</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <div class="nav-cta">
+            <button class="btn btn-ghost" onclick="openChat()" aria-label="Sign in">Sign in</button>
+            <button class="btn btn-primary" onclick="openChat()" aria-label="Get started free">Get started free</button>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     LANDING PAGE
+═══════════════════════════════════════════ -->
+<div id="landing">
+
+    <!-- HERO -->
+    <section id="hero" aria-labelledby="hero-heading">
+        <div class="mesh"></div>
+        <div class="wrap" style="position:relative;z-index:2;width:100%">
+
+            <div class="hero-eyebrow rev">
+                <span class="badge"><span class="badge-dot"></span>Now in Beta · Free Access</span>
+            </div>
+
+            <h1 class="hero-h1 rev rev-d1" id="hero-heading">
+                Crypto Markets, Decoded<br>with <span class="grad">AI Intelligence</span>
+            </h1>
+
+            <p class="hero-sub rev rev-d2">
+                Ask any market question in plain English. AskApex translates it to precise SQL,
+                queries your data, and delivers institutional-grade analysis — locally, privately, instantly.
+            </p>
+
+            <div class="hero-btns rev rev-d3">
+                <button class="btn btn-primary btn-lg" onclick="openChat()">
+                    ⚡ Try AskApex Free
+                </button>
+                <a href="#how" class="btn btn-outline btn-lg">See how it works</a>
+            </div>
+
+            <!-- Hero chat input — clicking/typing opens the full chat -->
+            <div class="hero-chat rev rev-d4" role="search" aria-label="Ask AskApex">
+                <div class="hero-chat-box">
+          <textarea id="hero-ta" rows="1" maxlength="4000"
+                    placeholder="Ask: What was Bitcoin's RSI last week? · Show me ETH volatility in January…"
+                    aria-label="Type your crypto question"></textarea>
+                    <button class="hero-send-btn" id="hero-send" aria-label="Send question">&#10148;</button>
+                </div>
+                <div class="hero-hints">
+                    <span>Zero hallucinations</span>
+                    <span>100% local & private</span>
+                    <span>50+ indicators</span>
+                    <span>SQL-auditable</span>
+                </div>
+            </div>
+
+            <!-- Product mock visual -->
+            <div class="hero-mock-wrap rev rev-d5" aria-hidden="true">
+                <div class="hero-mock">
+                    <div class="mock-bar">
+                        <div class="mock-dots"><i></i><i></i><i></i></div>
+                        <div class="mock-bar-url">askapex.io · AskApex AI</div>
+                    </div>
+                    <div class="mock-body">
+                        <div class="mock-row user">
+                            <div class="mock-av user-av">👤</div>
+                            <div class="mock-bub user">Show me Bitcoin's 14-day RSI for February 2025 and flag oversold conditions</div>
+                        </div>
+                        <div class="mock-row">
+                            <div class="mock-av ai-av">⬡</div>
+                            <div class="mock-bub ai">
+                                <strong>Bitcoin RSI Analysis — Feb 2025</strong><br><br>
+                                Executing query on <code>candles</code> table with <code>interval='1d'</code>…<br><br>
+                                📊 <strong>RSI Range:</strong> 38.2 → 67.4<br>
+                                🔴 <strong>Oversold Signal:</strong> Feb 3 — RSI hit <code>28.6</code> (below 30 threshold)<br>
+                                ✅ <strong>Recovery:</strong> Bounced to 54.1 within 4 days<br><br>
+                                <em>Result reproducible via snapshot ID <code>snap_20250203_btc</code></em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section id="social" aria-label="Trusted by traders worldwide">
+        <div class="wrap">
+            <p class="social-label">Trusted by traders &amp; researchers worldwide</p>
+            <div class="social-logos">
+                <span class="social-logo">Binance Data</span>
+                <span class="social-logo">ClickHouse</span>
+                <span class="social-logo">Qwen 3 · 30B</span>
+                <span class="social-logo">ApexLinux</span>
+                <span class="social-logo">vLLM Engine</span>
+                <span class="social-logo">RTX 3090 ×2</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" aria-labelledby="features-heading">
+        <div class="wrap">
+            <div class="sh">
+                <span class="badge rev"><span class="badge-dot"></span>Features</span>
+                <h2 class="rev rev-d1" id="features-heading">Everything you need.<br>Nothing you don't.</h2>
+                <p class="rev rev-d2">Built for traders who demand precision. Every number is deterministic, auditable, and reproducible.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feat-card rev">
+                    <div class="feat-ico">💬</div>
+                    <h3>Natural Language Queries</h3>
+                    <p>Ask complex market questions in plain English. No SQL, no scripting — just type what you want to know about any asset.</p>
+                </div>
+                <div class="feat-card rev rev-d1">
+                    <div class="feat-ico">🔒</div>
+                    <h3>Zero-Hallucination Architecture</h3>
+                    <p>AI never fabricates numbers. Every result flows from deterministic SQL against real data. Snapshot IDs make every result auditable.</p>
+                </div>
+                <div class="feat-card rev rev-d2">
+                    <div class="feat-ico">📊</div>
+                    <h3>50+ Technical Indicators</h3>
+                    <p>SMA, EMA, RSI, MACD, Bollinger Bands, VWAP, ATR, Stochastic, and dozens more — calculated on demand for any period.</p>
+                </div>
+                <div class="feat-card rev rev-d3">
+                    <div class="feat-ico">⚡</div>
+                    <h3>Real-Time Data Streaming</h3>
+                    <p>WebSocket feeds from top exchanges. Live candles computed in sub-second windows. Historical and live data unified under one query interface.</p>
+                </div>
+                <div class="feat-card rev rev-d4">
+                    <div class="feat-ico">🧪</div>
+                    <h3>Strategy Backtesting</h3>
+                    <p>Define strategies in plain language. Get win rate, Sharpe ratio, max drawdown, and equity curves — all computed from raw data.</p>
+                </div>
+                <div class="feat-card rev rev-d5">
+                    <div class="feat-ico">🛡️</div>
+                    <h3>100% Local & Private</h3>
+                    <p>Runs entirely on your hardware. No telemetry, no cloud dependencies. Your data and queries never leave your infrastructure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" aria-labelledby="how-heading">
+        <div class="wrap">
+            <div class="sh">
+                <span class="badge rev"><span class="badge-dot"></span>How it works</span>
+                <h2 class="rev rev-d1" id="how-heading">Four steps from question to insight</h2>
+                <p class="rev rev-d2">Under the hood, AskApex runs a tight ReAct loop between your question and verified data — never guessing.</p>
+            </div>
+            <div class="steps">
+                <div class="step rev">
+                    <div class="step-num">1</div>
+                    <h3>Ask in Plain English</h3>
+                    <p>Type any market question naturally. AskApex understands intent, symbols, date ranges, and indicator requests.</p>
+                </div>
+                <div class="step rev rev-d1">
+                    <div class="step-num">2</div>
+                    <h3>AI Generates SQL</h3>
+                    <p>Qwen3-30B translates your question into schema-aware, validated SQL — no hallucinated numbers, ever.</p>
+                </div>
+                <div class="step rev rev-d2">
+                    <div class="step-num">3</div>
+                    <h3>ClickHouse Executes</h3>
+                    <p>The query runs against your local ClickHouse database. Sub-millisecond for simple queries; under 5s for complex analysis.</p>
+                </div>
+                <div class="step rev rev-d3">
+                    <div class="step-num">4</div>
+                    <h3>Results Explained Clearly</h3>
+                    <p>AI interprets the data and explains findings in natural language, with every number traceable back to its source snapshot.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" aria-labelledby="testi-heading">
+        <div class="wrap">
+            <div class="sh">
+                <span class="badge rev"><span class="badge-dot"></span>Reviews</span>
+                <h2 class="rev rev-d1" id="testi-heading">What traders are saying</h2>
+            </div>
+            <div class="testi-grid">
+                <div class="testi-card rev">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"Finally a tool where I can say 'show me every time Bitcoin's RSI diverged from price on the 4h chart last year' and actually get the right answer. No more Pine Script gymnastics."</p>
+                    <div class="testi-author">
+                        <div class="t-av">AK</div>
+                        <div>
+                            <div class="t-name">Aleksei K.</div>
+                            <div class="t-role">Quant Trader · Moscow</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card rev rev-d1">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"The privacy-first architecture sold me immediately. Running entirely on my own hardware, I can query proprietary strategies without any data leaving my lab. This is how it should be."</p>
+                    <div class="testi-author">
+                        <div class="t-av">SR</div>
+                        <div>
+                            <div class="t-name">Sara R.</div>
+                            <div class="t-role">Crypto Researcher · Berlin</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card rev rev-d2">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"Snapshot IDs that make every result reproducible are genius. I can share an analysis with my team and they can verify every single number. Institutional-grade, seriously."</p>
+                    <div class="testi-author">
+                        <div class="t-av">JM</div>
+                        <div>
+                            <div class="t-name">James M.</div>
+                            <div class="t-role">Algo Trading Lead · London</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" aria-labelledby="pricing-heading">
+        <div class="wrap">
+            <div class="sh">
+                <span class="badge rev"><span class="badge-dot"></span>Pricing</span>
+                <h2 class="rev rev-d1" id="pricing-heading">Simple, transparent pricing</h2>
+                <p class="rev rev-d2">Start free. Upgrade when you need more. Cancel anytime.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="p-card rev">
+                    <div class="p-tier">Free</div>
+                    <div class="p-price">$0<span class="mo">/mo</span></div>
+                    <p class="p-desc">Perfect for exploring AskApex and learning the ropes.</p>
+                    <div class="p-hr"></div>
+                    <ul class="p-feats">
+                        <li>100 queries per month</li>
+                        <li>Basic indicators (SMA, EMA, RSI)</li>
+                        <li>1 year historical data</li>
+                        <li>Daily candles only</li>
+                        <li class="off">Real-time streaming</li>
+                        <li class="off">Backtesting engine</li>
+                        <li class="off">Priority support</li>
+                    </ul>
+                    <button class="btn btn-outline p-cta" onclick="openChat()">Get started free</button>
+                </div>
+                <div class="p-card featured rev rev-d1">
+                    <span class="p-popular">Most Popular</span>
+                    <div class="p-tier">Pro</div>
+                    <div class="p-price"><sup>$</sup>29<span class="mo">/mo</span></div>
+                    <p class="p-desc">Full-featured access for serious traders and researchers.</p>
+                    <div class="p-hr"></div>
+                    <ul class="p-feats">
+                        <li>Unlimited queries</li>
+                        <li>All 50+ indicators</li>
+                        <li>3 years historical data</li>
+                        <li>All timeframes (1m → 1M)</li>
+                        <li>Real-time streaming</li>
+                        <li>Backtesting engine</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="btn btn-primary p-cta" onclick="openChat()">Start Pro trial</button>
+                </div>
+                <div class="p-card rev rev-d2">
+                    <div class="p-tier">Enterprise</div>
+                    <div class="p-price"><sup>$</sup>99<span class="mo">/mo</span></div>
+                    <p class="p-desc">For teams and institutions requiring custom integrations.</p>
+                    <div class="p-hr"></div>
+                    <ul class="p-feats">
+                        <li>Everything in Pro</li>
+                        <li>Custom data feeds</li>
+                        <li>On-chain metrics</li>
+                        <li>Team workspaces</li>
+                        <li>API access</li>
+                        <li>White-label option</li>
+                        <li>Dedicated support</li>
+                    </ul>
+                    <button class="btn btn-outline p-cta" onclick="openChat()">Contact sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" aria-labelledby="faq-heading">
+        <div class="wrap">
+            <div class="sh">
+                <span class="badge rev"><span class="badge-dot"></span>FAQ</span>
+                <h2 class="rev rev-d1" id="faq-heading">Common questions</h2>
+            </div>
+            <div class="faq-list" role="list">
+                <div class="faq-item rev" role="listitem">
+                    <button class="faq-q" aria-expanded="false">
+                        What data sources does AskApex support?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region" hidden>
+                        <p>AskApex currently supports Binance historical data as the primary source, with Coinbase, Kraken, and Bybit as secondary sources. You can also import custom CSV files. Real-time streaming from 5–10 exchanges is coming in Phase 2.</p>
+                    </div>
+                </div>
+                <div class="faq-item rev rev-d1" role="listitem">
+                    <button class="faq-q" aria-expanded="false">
+                        Is my data and query history truly private?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region" hidden>
+                        <p>Absolutely. AskApex is a local-first application. All data is stored on your own infrastructure. The AI model runs locally via vLLM. Zero telemetry is sent anywhere. You can run it completely offline after initial setup — your strategies and queries never touch an external server.</p>
+                    </div>
+                </div>
+                <div class="faq-item rev rev-d2" role="listitem">
+                    <button class="faq-q" aria-expanded="false">
+                        How does the zero-hallucination guarantee work?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region" hidden>
+                        <p>The AI is constrained to a tool-based architecture — it can only output numbers by executing a real SQL query against your ClickHouse database. It cannot fabricate, estimate, or infer values. Every number in a response comes from an actual query result, identified by a reproducible snapshot ID.</p>
+                    </div>
+                </div>
+                <div class="faq-item rev rev-d3" role="listitem">
+                    <button class="faq-q" aria-expanded="false">
+                        What hardware do I need to run AskApex?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region" hidden>
+                        <p>The full stack (Qwen3-30B) requires 2× RTX 3090 GPUs (24 GB VRAM each) with 64 GB system RAM, running on Linux (ApexLinux recommended). A lightweight cloud mode with a smaller model is planned for systems with less GPU memory.</p>
+                    </div>
+                </div>
+                <div class="faq-item rev rev-d4" role="listitem">
+                    <button class="faq-q" aria-expanded="false">
+                        Can I build custom indicators not listed in the docs?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region" hidden>
+                        <p>Yes — this is one of AskApex's core strengths. Since analysis runs as SQL via ClickHouse, any mathematically definable indicator can be computed. Just describe it in natural language and the AI generates the appropriate window function or subquery. No limits.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section id="cta" aria-labelledby="cta-heading">
+        <div class="cta-box">
+            <span class="badge" style="margin-bottom:20px;display:inline-flex"><span class="badge-dot"></span>Free to start</span>
+            <h2 id="cta-heading">Start asking smarter<br>questions today</h2>
+            <p>Join traders and analysts who've stopped guessing and started knowing. No credit card required.</p>
+            <div class="cta-btns">
+                <button class="btn btn-primary btn-lg" onclick="openChat()">⚡ Launch AskApex Free</button>
+                <a href="#features" class="btn btn-outline btn-lg">Learn more</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="wrap foot-inner">
+            <span class="foot-copy">© 2025–2026 ApexLinux Technologies · AskApex · Not financial advice.</span>
+            <nav class="foot-links" aria-label="Footer links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Docs</a>
+                <a href="#">GitHub</a>
+                <a href="mailto:askapex@askapex.ai">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+</div><!-- /landing -->
+
+<!-- ═══════════════════════════════════════════
+     CHAT OVERLAY
+═══════════════════════════════════════════ -->
+<div id="chat-overlay" role="main" aria-label="AskApex Chat" aria-hidden="true">
+
+    <!-- Chat nav -->
+    <nav class="cnav" aria-label="Chat navigation">
+        <div class="cnav-logo">
+            <div class="nav-logo-ico">⬡</div>
+            <span>Ask<span>Apex</span></span>
+        </div>
+        <div class="cnav-spacer"></div>
+        <button class="cnav-back" onclick="closeChat()" aria-label="Back to home page">
+            ← Back to home
+        </button>
+    </nav>
+
+    <!-- Main chat area -->
+    <div id="chat-main">
+
+        <!-- Greeting — visible before first message -->
+        <div id="chat-greeting" aria-hidden="true">
+            <div class="cg-icon">⬡</div>
+            <h2>What can I help with?&nbsp;&nbsp;This is Crypto powered AI</h2>
+            <p>AskApex AI &nbsp;·&nbsp; Developed by ApexLinux Technology</p>
+        </div>
+
+        <!-- Messages scroll area -->
+        <div id="chat-msgs" role="log" aria-live="polite" aria-label="Chat messages">
+            <div class="msgs-inner" id="msgs-inner"></div>
+        </div>
+
+        <!-- Input zone — always at bottom, style changes on first message -->
+        <div id="chat-input-zone">
+            <div class="chat-ibox">
+        <textarea id="chat-ta" rows="1" maxlength="4000"
+                  placeholder="Ask anything about crypto markets…"
+                  autocomplete="off" spellcheck="true"
+                  aria-label="Type your message"></textarea>
+                <button id="c-send" class="c-send" title="Send (Enter)" aria-label="Send message">&#10148;</button>
+                <button id="c-pause" class="c-pause" title="Stop generation" aria-label="Stop generating">&#9632;</button>
+            </div>
+            <p class="chat-hint-txt" id="chat-hint">Press Enter to send &nbsp;·&nbsp; Shift+Enter for new line</p>
+        </div>
+
+    </div><!-- /chat-main -->
+</div><!-- /chat-overlay -->
+
+<script>
+    /* ═══════════════════════════════════════════════════════════════════════
+       AskApex v2 — Combined Landing + Chat Engine
+       Phase 1: active   |   Phase 2 (suggestions): gated
+    ═══════════════════════════════════════════════════════════════════════ */
+    const CFG = {
+        API:            "https://lab.askapex.ai/v1/chat/completions",
+        MODEL:          "/root/models/qwen3-30B-A3B-GPTQ-Int4",
+        MAX_TOKENS:     2048,
+        TEMPERATURE:    0.7,
+        PHASE2:         false,   // ← set true to enable follow-up chips
+    };
+
+    /* ─── state ─────────────────────────────────────── */
+    const S = {
+        history:   [],
+        streaming: false,
+        abort:     null,
+    };
+
+    /* ─── DOM refs ───────────────────────────────────── */
+    const $  = id => document.getElementById(id);
+    const D  = {
+        overlay:  $("chat-overlay"),
+        main:     $("chat-main"),
+        msgs:     $("chat-msgs"),
+        inner:    $("msgs-inner"),
+        ta:       $("chat-ta"),
+        send:     $("c-send"),
+        pause:    $("c-pause"),
+        hint:     $("chat-hint"),
+        heroTa:   $("hero-ta"),
+        heroSend: $("hero-send"),
+    };
+
+    /* ─── escape HTML ────────────────────────────────── */
+    function esc(s) {
+        return String(s)
+            .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+            .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    /* ─── minimal markdown renderer ─────────────────── */
+    function md(raw) {
+        const bl = [];
+        let s = raw.replace(/```([\s\S]*?)```/g,(_,inner)=>{
+            bl.push("<pre><code>"+esc(inner.trim())+"</code></pre>");
+            return "\x00B"+(bl.length-1)+"\x00";
+        });
+        s = s.replace(/`([^`\n]+)`/g,(_,c)=>"<code>"+esc(c)+"</code>");
+        s = s.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+        s = s.replace(/\*(.+?)\*/g,"<em>$1</em>");
+        return s.split(/\x00/).map(p=>{
+            if(/^B\d+$/.test(p)) return bl[+p.slice(1)];
+            return esc(p).replace(/\n/g,"<br>");
+        }).join("");
+    }
+
+    /* ─── OPEN / CLOSE CHAT ──────────────────────────── */
+    function openChat(initialText) {
+        document.body.classList.add("chat-open");
+        D.overlay.classList.add("open");
+        D.overlay.setAttribute("aria-hidden","false");
+        document.getElementById("nav").style.opacity = "";
+        setTimeout(()=>{ D.ta.focus(); },500);
+        if (initialText) {
+            D.ta.value = initialText;
+            resizeTa();
+        }
+    }
+
+    function closeChat() {
+        D.overlay.classList.remove("open");
+        D.overlay.setAttribute("aria-hidden","true");
+        document.body.classList.remove("chat-open");
+    }
+
+    /* Hero input → open chat + send */
+    function heroSend() {
+        const t = D.heroTa ? D.heroTa.value.trim() : "";
+        openChat(t || "");
+        if (t) setTimeout(sendMsg, 550);
+    }
+
+    D.heroSend && D.heroSend.addEventListener("click", heroSend);
+    D.heroTa && D.heroTa.addEventListener("keydown", e=>{
+        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); heroSend(); }
+    });
+    D.heroTa && D.heroTa.addEventListener("input", ()=>{ resizeHeroTa(); });
+
+    function resizeHeroTa() {
+        if (!D.heroTa) return;
+        D.heroTa.style.height = "auto";
+        D.heroTa.style.height = Math.min(D.heroTa.scrollHeight, 140)+"px";
+    }
+
+    /* ─── CHAT TEXTAREA AUTO-RESIZE ──────────────────── */
+    function resizeTa() {
+        D.ta.style.height = "auto";
+        D.ta.style.height = Math.min(D.ta.scrollHeight,160)+"px";
+    }
+    D.ta.addEventListener("input",()=>{
+        resizeTa();
+        const rem = 4000 - D.ta.value.length;
+        D.hint.textContent = rem < 400
+            ? rem+" characters remaining"
+            : "Press Enter to send \u00b7 Shift+Enter for new line";
+    });
+    D.ta.addEventListener("keydown",e=>{
+        if (e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); if(!S.streaming) sendMsg(); }
+    });
+
+    /* ─── UI state ───────────────────────────────────── */
+    function setStreaming(on) {
+        S.streaming     = on;
+        D.ta.disabled   = on;
+        D.send.disabled = on;
+        D.pause.classList.toggle("on", on);
+    }
+
+    function scrollBot(smooth) {
+        D.msgs.scrollTo({ top:D.msgs.scrollHeight, behavior:smooth?"smooth":"instant" });
+    }
+
+    /* Trigger "has messages" layout shift */
+    function activateMsgsLayout() {
+        if (!D.overlay.classList.contains("has-msgs")) {
+            D.overlay.classList.add("has-msgs");
+            D.msgs.setAttribute("aria-relevant","additions");
+        }
+    }
+
+    /* ─── RENDER ──────────────────────────────────────── */
+    function addUserMsg(text) {
+        activateMsgsLayout();
+        const row = document.createElement("div");
+        row.className = "cmsg user";
+        row.innerHTML =
+            '<div class="cmsg-bub">'+esc(text).replace(/\n/g,"<br>")+'</div>'+
+            '<div class="cmsg-av user-av" aria-hidden="true">&#128100;</div>';
+        D.inner.appendChild(row);
+        scrollBot(false);
+    }
+
+    function createAiMsg() {
+        activateMsgsLayout();
+        const row    = document.createElement("div"); row.className="cmsg ai";
+        row.setAttribute("aria-live","polite");
+        const av     = document.createElement("div"); av.className="cmsg-av ai-av"; av.setAttribute("aria-hidden","true"); av.textContent="\u2B21";
+        const bub    = document.createElement("div"); bub.className="cmsg-bub";
+        const cursor = document.createElement("span"); cursor.className="cur"; cursor.setAttribute("aria-hidden","true");
+        bub.appendChild(cursor);
+        row.appendChild(av); row.appendChild(bub);
+        D.inner.appendChild(row);
+        scrollBot(false);
+
+        let acc = "";
+        return {
+            row,
+            append(chunk){
+                acc += chunk;
+                bub.innerHTML = md(acc);
+                bub.appendChild(cursor);
+                scrollBot(false);
+            },
+            finalize(){
+                cursor.remove();
+                bub.innerHTML = md(acc);
+                scrollBot(true);
+                return acc;
+            },
+        };
+    }
+
+    /* ─── Suggestion chips (Phase 2) ─────────────────── */
+    function addChips(afterRow, chips) {
+        const row = document.createElement("div"); row.className="chips-row";
+        chips.forEach(t=>{
+            const c = document.createElement("button"); c.className="s-chip"; c.textContent=t;
+            c.addEventListener("click",()=>{ D.ta.value=t; resizeTa(); D.ta.focus(); });
+            row.appendChild(c);
+        });
+        afterRow.insertAdjacentElement("afterend",row);
+        scrollBot(true);
+    }
+
+    /* ─── PAUSE ──────────────────────────────────────── */
+    D.pause.addEventListener("click",()=>{ S.abort&&S.abort.abort(); });
+
+    /* ═══════════════════════════════════════════════════
+       SEND MESSAGE
+    ═══════════════════════════════════════════════════ */
+    async function sendMsg() {
+        const text = D.ta.value.trim();
+        if (!text) return;
+
+        D.ta.value = ""; resizeTa();
+        S.history.push({role:"user",content:text});
+        addUserMsg(text);
+        setStreaming(true);
+        S.abort = new AbortController();
+
+        const ai = createAiMsg();
+        let final = "";
+
+        try {
+            const resp = await fetch(CFG.API, {
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                signal: S.abort.signal,
+                body: JSON.stringify({
+                    model:       CFG.MODEL,
+                    messages:    S.history,
+                    max_tokens:  CFG.MAX_TOKENS,
+                    temperature: CFG.TEMPERATURE,
+                    stream:      true,
+                }),
+            });
+
+            if (!resp.ok) throw new Error("HTTP "+resp.status+" — "+resp.statusText);
+
+            const reader  = resp.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let   buf     = "";
+
+            outer: while (true) {
+                const {done,value} = await reader.read();
+                if (done) break;
+                buf += decoder.decode(value,{stream:true});
+                const lines = buf.split("\n");
+                buf = lines.pop();
+                for (const line of lines) {
+                    const t = line.trim();
+                    if (!t || t===":") continue;
+                    if (!t.startsWith("data:")) continue;
+                    const data = t.slice(5).trim();
+                    if (data==="[DONE]") break outer;
+                    try {
+                        const p = JSON.parse(data);
+                        const delta = p?.choices?.[0]?.delta?.content;
+                        if (delta) ai.append(delta);
+                        const reason = p?.choices?.[0]?.finish_reason;
+                        if (reason && reason!=="null" && reason!==null) break outer;
+                    } catch { /* malformed chunk */ }
+                }
+            }
+        } catch(err) {
+            if (err.name !== "AbortError") {
+                ai.append("\n\n\u26A0\uFE0F Error: "+esc(err.message));
+                console.error("[AskApex]",err);
+            }
+        }
+
+        final = ai.finalize();
+        S.history.push({role:"assistant",content:final});
+        setStreaming(false);
+        S.abort = null;
+        D.ta.focus();
+
+        if (CFG.PHASE2 && final) fetchChips(ai.row);
+    }
+
+    D.send.addEventListener("click",()=>{ if(!S.streaming) sendMsg(); });
+
+    /* ═══════════════════════════════════════════════════
+       PHASE 2 — follow-up chips (gated)
+    ═══════════════════════════════════════════════════ */
+    async function fetchChips(afterRow) {
+        const prompt =
+            "Based on this conversation, suggest 3 to 5 concise follow-up questions "+
+            "the user might naturally ask next. "+
+            "Return ONLY a JSON array of strings. No markdown, no explanation.";
+        try {
+            const resp = await fetch(CFG.API,{
+                method:"POST", headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({
+                    model:CFG.MODEL,
+                    messages:[...S.history,{role:"user",content:prompt}],
+                    max_tokens:300, temperature:0.5, stream:false,
+                }),
+            });
+            if (!resp.ok) return;
+            const j    = await resp.json();
+            const raw  = j?.choices?.[0]?.message?.content??"";
+            const chips = JSON.parse(raw.replace(/```json|```/g,"").trim());
+            if (Array.isArray(chips)&&chips.length) addChips(afterRow,chips);
+        } catch(e){ console.warn("[AskApex] chips:",e); }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       NAV SCROLL EFFECT
+    ═══════════════════════════════════════════════════ */
+    const nav = document.getElementById("nav");
+    window.addEventListener("scroll",()=>{
+        nav.classList.toggle("scrolled", window.scrollY > 20);
+    },{passive:true});
+
+    /* ═══════════════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════════════ */
+    const revEls = document.querySelectorAll(".rev");
+    const ro = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); ro.unobserve(e.target); } });
+    },{threshold:0.12, rootMargin:"0px 0px -40px 0px"});
+    revEls.forEach(el=>ro.observe(el));
+
+    /* ═══════════════════════════════════════════════════
+       FAQ ACCORDION
+    ═══════════════════════════════════════════════════ */
+    document.querySelectorAll(".faq-q").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            const item  = btn.closest(".faq-item");
+            const isOpen = item.classList.contains("open");
+            // close all
+            document.querySelectorAll(".faq-item.open").forEach(i=>{
+                i.classList.remove("open");
+                i.querySelector(".faq-q").setAttribute("aria-expanded","false");
+                const a = i.querySelector(".faq-a"); a.hidden=false; /* keep in flow for CSS */
+            });
+            if (!isOpen) {
+                item.classList.add("open");
+                btn.setAttribute("aria-expanded","true");
+            }
+        });
+    });
+
+    /* ═══════════════════════════════════════════════════
+       HERO TEXTAREA — also opens chat on any typing
+    ═══════════════════════════════════════════════════ */
+    D.heroTa && D.heroTa.addEventListener("focus", ()=>{
+        // subtle: don't auto-open until send, just style nicely
+    });
+
+    /* focus chat input on open */
+    document.addEventListener("keydown", e=>{
+        if (e.key==="Escape" && D.overlay.classList.contains("open")) closeChat();
+    });
+</script>
+</body>
+</html>

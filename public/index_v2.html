@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AskApex AI | Crypto Powered AI</title>
+
+    <!-- Fonts (2 max) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <style>
+        :root {
+            --bg0: #070A12;
+            --bg1: #0B1220;
+            --card: rgba(255, 255, 255, 0.06);
+            --card2: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: rgba(255, 255, 255, 0.92);
+            --muted: rgba(255, 255, 255, 0.70);
+            --muted2: rgba(255, 255, 255, 0.52);
+            --shadow: rgba(0, 0, 0, 0.55);
+
+            --accent: #7C5CFF;
+            --accent2: #16F0C8;
+            --danger: #FF4D6D;
+
+            --ring: rgba(124, 92, 255, 0.55);
+            --ring2: rgba(22, 240, 200, 0.42);
+
+            --radius-lg: 24px;
+            --radius-md: 18px;
+            --radius-sm: 14px;
+
+            --s4: 4px;
+            --s8: 8px;
+            --s12: 12px;
+            --s16: 16px;
+            --s24: 24px;
+            --s32: 32px;
+            --s48: 48px;
+            --s64: 64px;
+
+            --maxw: 1200px;
+
+            --fs-xs: clamp(12px, 1.2vw, 13px);
+            --fs-sm: clamp(13px, 1.5vw, 15px);
+            --fs-md: clamp(15px, 1.6vw, 16px);
+            --fs-lg: clamp(18px, 2.2vw, 20px);
+            --fs-xl: clamp(28px, 4vw, 44px);
+            --fs-2xl: clamp(36px, 6vw, 64px);
+
+            --lh-tight: 1.08;
+            --lh-normal: 1.45;
+
+            --grid-gap: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(1200px 600px at 20% 10%, rgba(124, 92, 255, 0.22), transparent 60%),
+            radial-gradient(1000px 500px at 80% 20%, rgba(22, 240, 200, 0.16), transparent 55%),
+            radial-gradient(900px 520px at 50% 90%, rgba(124, 92, 255, 0.12), transparent 60%),
+            linear-gradient(180deg, var(--bg0), var(--bg1));
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .sr_only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 var(--s16);
+        }
+
+        .grid12 {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: var(--grid-gap);
+        }
+
+        .glass {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04));
+            border: 1px solid var(--border);
+            box-shadow: 0 28px 120px var(--shadow);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--muted);
+            font-size: var(--fs-xs);
+            letter-spacing: 0.15px;
+        }
+
+        .kbd {
+            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 7px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(0, 0, 0, 0.18);
+            color: rgba(255, 255, 255, 0.80);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            font-size: var(--fs-sm);
+            cursor: pointer;
+            transition: transform 140ms ease, background 140ms ease, border 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+            user-select: none;
+            outline: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .btn:active {
+            transform: translateY(0px);
+        }
+
+        .btn:focus-visible {
+            box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18), 0 0 0 1px rgba(124, 92, 255, 0.60);
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, rgba(124, 92, 255, 0.98), rgba(22, 240, 200, 0.75));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 50px rgba(124, 92, 255, 0.18);
+        }
+
+        .btn.primary:hover {
+            background: linear-gradient(135deg, rgba(124, 92, 255, 1.00), rgba(22, 240, 200, 0.82));
+            box-shadow: 0 18px 56px rgba(124, 92, 255, 0.22);
+        }
+
+        .btn.ghost {
+            background: rgba(0, 0, 0, 0.10);
+        }
+
+        .btn.danger {
+            background: rgba(255, 77, 109, 0.14);
+            border: 1px solid rgba(255, 77, 109, 0.28);
+        }
+
+        .btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .section {
+            padding: var(--s64) 0;
+        }
+
+        .section.compact {
+            padding: var(--s48) 0;
+        }
+
+        .h_eyebrow {
+            font-size: var(--fs-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: rgba(255, 255, 255, 0.62);
+            margin: 0 0 var(--s12) 0;
+        }
+
+        h1 {
+            font-size: var(--fs-2xl);
+            line-height: var(--lh-tight);
+            letter-spacing: -0.03em;
+            margin: 0 0 var(--s16) 0;
+        }
+
+        h2 {
+            font-size: var(--fs-xl);
+            line-height: 1.14;
+            letter-spacing: -0.025em;
+            margin: 0 0 var(--s16) 0;
+        }
+
+        h3 {
+            font-size: clamp(18px, 2.1vw, 22px);
+            margin: 0 0 var(--s12) 0;
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            margin: 0 0 var(--s16) 0;
+            color: var(--muted);
+            line-height: var(--lh-normal);
+            font-size: var(--fs-md);
+        }
+
+        .muted {
+            color: var(--muted2);
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.10);
+            width: 100%;
+        }
+
+        /* Sticky Nav */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            background: rgba(7, 10, 18, 0.62);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .nav_inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--s16);
+            padding: var(--s12) 0;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 180px;
+        }
+
+        .logo_mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.06)),
+            linear-gradient(135deg, rgba(124, 92, 255, 0.98), rgba(22, 240, 200, 0.75));
+            box-shadow: 0 18px 60px rgba(124, 92, 255, 0.24);
+        }
+
+        .logo_text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05;
+        }
+
+        .logo_text strong {
+            font-size: 14px;
+            letter-spacing: 0.2px;
+        }
+
+        .logo_text span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .nav_links {
+            display: none;
+            gap: var(--s16);
+            align-items: center;
+        }
+
+        .nav_links a {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.72);
+            padding: 10px 10px;
+            border-radius: 12px;
+            transition: background 140ms ease, color 140ms ease;
+        }
+
+        .nav_links a:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .nav_cta {
+            display: flex;
+            gap: var(--s8);
+            align-items: center;
+        }
+
+        .hamburger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: transform 140ms ease, background 140ms ease, border 140ms ease;
+        }
+
+        .hamburger:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .hamburger:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18), 0 0 0 1px rgba(124, 92, 255, 0.60);
+        }
+
+        .hamburger_icon {
+            width: 18px;
+            height: 14px;
+            position: relative;
+        }
+
+        .hamburger_icon span {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.82);
+        }
+
+        .hamburger_icon span:nth-child(1) {
+            top: 0;
+        }
+
+        .hamburger_icon span:nth-child(2) {
+            top: 6px;
+            opacity: 0.75;
+        }
+
+        .hamburger_icon span:nth-child(3) {
+            bottom: 0;
+            opacity: 0.6;
+        }
+
+        .mobile_menu {
+            display: none;
+            padding: 0 0 var(--s12) 0;
+        }
+
+        .mobile_menu.open {
+            display: block;
+        }
+
+        .mobile_menu a {
+            display: block;
+            padding: 12px 10px;
+            border-radius: 14px;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .mobile_menu a:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* Hero */
+        .hero {
+            padding: var(--s64) 0 var(--s48) 0;
+        }
+
+        .hero_left {
+            grid-column: 1 / -1;
+        }
+
+        .hero_right {
+            grid-column: 1 / -1;
+        }
+
+        .hero_headline {
+            max-width: 740px;
+        }
+
+        .hero_sub {
+            max-width: 680px;
+            font-size: var(--fs-lg);
+            color: rgba(255, 255, 255, 0.72);
+            margin-bottom: var(--s24);
+        }
+
+        .hero_cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--s12);
+            align-items: center;
+            margin-bottom: var(--s24);
+        }
+
+        .hero_meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--s12);
+            align-items: center;
+        }
+
+        /* Product mock (pure HTML/CSS) */
+        .mock {
+            border-radius: var(--radius-lg);
+            padding: var(--s16);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mock::before {
+            content: "";
+            position: absolute;
+            inset: -60px;
+            background: radial-gradient(400px 220px at 25% 20%, rgba(124, 92, 255, 0.35), transparent 60%),
+            radial-gradient(420px 240px at 70% 30%, rgba(22, 240, 200, 0.22), transparent 60%),
+            radial-gradient(520px 260px at 55% 85%, rgba(124, 92, 255, 0.16), transparent 65%);
+            filter: blur(10px);
+            opacity: 0.85;
+        }
+
+        .mock_inner {
+            position: relative;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.14);
+            overflow: hidden;
+        }
+
+        .mock_topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--s12);
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .mock_dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .mock_dots i {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .mock_title {
+            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.70);
+        }
+
+        .mock_content {
+            padding: var(--s16);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--s12);
+        }
+
+        .mock_card {
+            padding: 12px 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .mock_card .label {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.55);
+            margin-bottom: 8px;
+        }
+
+        .mock_card .line {
+            height: 10px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
+            margin: 8px 0;
+        }
+
+        .mock_card .line.short {
+            width: 62%;
+        }
+
+        .mock_pulse {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(22, 240, 200, 0.95);
+            box-shadow: 0 0 0 0 rgba(22, 240, 200, 0.20);
+            animation: pulse 2.2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(22, 240, 200, 0.22);
+            }
+            60% {
+                box-shadow: 0 0 0 12px rgba(22, 240, 200, 0.00);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(22, 240, 200, 0.00);
+            }
+        }
+
+        /* Social proof */
+        .logos {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--s16);
+            align-items: center;
+            opacity: 0.92;
+        }
+
+        .logo_tile {
+            border-radius: 16px;
+            padding: 12px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            color: rgba(255, 255, 255, 0.62);
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        /* Cards */
+        .card {
+            border-radius: var(--radius-lg);
+            padding: var(--s24);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 22px 80px rgba(0, 0, 0, 0.35);
+            transition: transform 160ms ease, border 160ms ease, background 160ms ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.02)),
+            linear-gradient(135deg, rgba(124, 92, 255, 0.9), rgba(22, 240, 200, 0.65));
+            box-shadow: 0 16px 50px rgba(124, 92, 255, 0.16);
+            margin-bottom: var(--s16);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.92);
+            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* How it works */
+        .steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--s16);
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: var(--s16);
+            align-items: flex-start;
+            padding: var(--s16);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .step_num {
+            width: 48px;
+            height: 48px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(124, 92, 255, 0.14);
+            border: 1px solid rgba(124, 92, 255, 0.26);
+            color: rgba(255, 255, 255, 0.90);
+            font-weight: 800;
+        }
+
+        /* Testimonials */
+        .quote {
+            position: relative;
+        }
+
+        .quote p {
+            margin-bottom: var(--s16);
+            color: rgba(255, 255, 255, 0.78);
+            font-size: var(--fs-md);
+        }
+
+        .quote_footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--s16);
+            color: var(--muted2);
+            font-size: var(--fs-sm);
+        }
+
+        .quote_name {
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.84);
+        }
+
+        /* Pricing */
+        .price {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s12);
+        }
+
+        .price_tag {
+            font-size: clamp(30px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .price_tag span {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.55);
+            margin-left: 6px;
+        }
+
+        .list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .list li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            color: rgba(255, 255, 255, 0.74);
+            font-size: var(--fs-sm);
+            line-height: 1.45;
+        }
+
+        .check {
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            background: rgba(22, 240, 200, 0.14);
+            border: 1px solid rgba(22, 240, 200, 0.26);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            margin-top: 2px;
+        }
+
+        .check svg {
+            width: 12px;
+            height: 12px;
+            fill: rgba(22, 240, 200, 0.95);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.70);
+        }
+
+        .badge.hot {
+            border: 1px solid rgba(22, 240, 200, 0.22);
+            background: rgba(22, 240, 200, 0.10);
+            color: rgba(22, 240, 200, 0.92);
+        }
+
+        /* FAQ accordion */
+        .faq {
+            display: grid;
+            gap: var(--s12);
+        }
+
+        details {
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+
+        summary {
+            cursor: pointer;
+            padding: var(--s16);
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--s16);
+            color: rgba(255, 255, 255, 0.86);
+            font-weight: 700;
+            font-size: var(--fs-md);
+            outline: none;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq_body {
+            padding: 0 var(--s16) var(--s16) var(--s16);
+            color: rgba(255, 255, 255, 0.72);
+            font-size: var(--fs-md);
+            line-height: var(--lh-normal);
+        }
+
+        .chev {
+            width: 18px;
+            height: 18px;
+            opacity: 0.75;
+            transition: transform 160ms ease;
+            flex: 0 0 auto;
+        }
+
+        details[open] .chev {
+            transform: rotate(180deg);
+        }
+
+        summary:focus-visible {
+            box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18), 0 0 0 1px rgba(124, 92, 255, 0.60);
+        }
+
+        /* Chat module (ChatGPT-like: centered before start, drops down after first message) */
+        .chat_stage {
+            position: relative;
+            padding: var(--s48) 0 var(--s64) 0;
+        }
+
+        .chat_stage_inner {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: var(--grid-gap);
+            align-items: start;
+        }
+
+        .chat_panel {
+            grid-column: 1 / -1;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .chat_panel_inner {
+            display: flex;
+            flex-direction: column;
+            min-height: 520px;
+            max-height: 72vh;
+        }
+
+        .chat_header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--s16);
+            padding: var(--s16) var(--s16);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .chat_header_left {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .chat_title {
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            font-size: 14px;
+        }
+
+        .chat_sub {
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 12px;
+        }
+
+        .chat_status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.70);
+            font-size: 12px;
+        }
+
+        .status_dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(22, 240, 200, 0.95);
+            box-shadow: 0 0 0 6px rgba(22, 240, 200, 0.12);
+        }
+
+        .status_dot.busy {
+            background: rgba(124, 92, 255, 0.95);
+            box-shadow: 0 0 0 6px rgba(124, 92, 255, 0.12);
+        }
+
+        .chat_body {
+            flex: 1;
+            overflow: auto;
+            padding: var(--s16);
+        }
+
+        .chat_body::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .chat_body::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+        }
+
+        .chat_intro {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: var(--s24);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .chat_intro h3 {
+            margin: 0 0 var(--s12) 0;
+            font-size: clamp(20px, 3vw, 26px);
+        }
+
+        .chat_intro p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.70);
+        }
+
+        .chat_messages {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--s12);
+        }
+
+        .msg_row {
+            display: flex;
+            width: 100%;
+        }
+
+        .msg_row.user {
+            justify-content: flex-end;
+        }
+
+        .msg_row.assistant {
+            justify-content: flex-start;
+        }
+
+        .bubble {
+            max-width: min(760px, 92%);
+            padding: 12px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.45;
+            font-size: 14px;
+        }
+
+        .bubble.user {
+            background: linear-gradient(180deg, rgba(124, 92, 255, 0.22), rgba(124, 92, 255, 0.10));
+            border: 1px solid rgba(124, 92, 255, 0.28);
+        }
+
+        .bubble.assistant {
+            background: linear-gradient(180deg, rgba(22, 240, 200, 0.14), rgba(255, 255, 255, 0.04));
+            border: 1px solid rgba(22, 240, 200, 0.22);
+        }
+
+        .chat_footer {
+            padding: var(--s16);
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .composer {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            gap: var(--s12);
+            align-items: flex-end;
+        }
+
+        .input_wrap {
+            flex: 1;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 10px 12px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        textarea {
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.4;
+            min-height: 24px;
+            max-height: 170px;
+            padding: 0;
+            margin: 0;
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.42);
+        }
+
+        .chat_hint {
+            max-width: 860px;
+            margin: 10px auto 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: var(--s12);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.52);
+        }
+
+        /* Centered stage behavior */
+        .center_stage {
+            min-height: calc(100vh - 88px);
+            display: flex;
+            align-items: center;
+        }
+
+        .center_stage .chat_panel_inner {
+            min-height: 560px;
+            max-height: 72vh;
+        }
+
+        .center_stage .chat_body {
+            display: flex;
+            align-items: center;
+        }
+
+        .center_stage .chat_intro {
+            margin: 0 auto;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 520ms ease, transform 520ms ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* Desktop layout */
+        @media (min-width: 900px) {
+            .nav_links {
+                display: flex;
+            }
+
+            .hamburger {
+                display: none;
+            }
+
+            .hero_left {
+                grid-column: 1 / 7;
+            }
+
+            .hero_right {
+                grid-column: 7 / -1;
+            }
+
+            .mock_content {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .logos {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+            }
+
+            .chat_panel {
+                grid-column: 2 / 12;
+            }
+
+            .steps {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* Utility */
+        .stack16 {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s16);
+        }
+
+        .stack24 {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s24);
+        }
+    </style>
+</head>
+<body>
+<!-- Sticky Nav -->
+<header class="nav" role="banner">
+    <div class="container">
+        <div class="nav_inner" aria-label="Primary navigation">
+            <a class="logo" href="#top" aria-label="AskApex AI Home">
+                <div class="logo_mark" aria-hidden="true"></div>
+                <div class="logo_text">
+                    <strong>AskApex AI</strong>
+                    <span>Crypto powered AI</span>
+                </div>
+            </a>
+
+            <nav class="nav_links" aria-label="Site">
+                <a href="#features">Features</a>
+                <a href="#how">How it works</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+
+            <div class="nav_cta">
+                <a class="btn ghost" href="#pricing" aria-label="View pricing">Pricing</a>
+                <a class="btn primary" href="#chat" aria-label="Open chat">Start Chat</a>
+                <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+                    <div class="hamburger_icon" aria-hidden="true">
+                        <span></span><span></span><span></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="mobile_menu" aria-label="Mobile navigation">
+            <a href="#features">Features</a>
+            <a href="#how">How it works</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <div class="divider" style="margin: 10px 0;"></div>
+            <a href="#chat">Start Chat</a>
+        </div>
+    </div>
+</header>
+
+<main id="top" role="main">
+    <!-- Hero -->
+    <section class="hero section">
+        <div class="container">
+            <div class="grid12">
+                <div class="hero_left reveal">
+                    <div class="stack24">
+                        <div class="hero_headline">
+                            <div class="chip" aria-label="Product tagline">
+                                <span aria-hidden="true">◆</span>
+                                <span>Policy-first. RAG-ready. Streaming-fast.</span>
+                            </div>
+                            <h1>Crypto powered AI that feels instant, trusted, and beautifully human.</h1>
+                            <p class="hero_sub">
+                                AskApex AI is a premium orchestration layer for modern language models—built for low-latency streaming,
+                                strict policy control, and enterprise-grade RAG.
+                            </p>
+                        </div>
+
+                        <div class="hero_cta" aria-label="Hero calls to action">
+                            <a class="btn primary" href="#chat" aria-label="Start chatting now">Start Chat</a>
+                            <a class="btn" href="#how" aria-label="See how it works">See how it works</a>
+                            <span class="chip" aria-label="Keyboard hint"><span class="kbd">Enter</span> to send • <span class="kbd">Shift</span> + <span class="kbd">Enter</span> newline</span>
+                        </div>
+
+                        <div class="hero_meta">
+                            <span class="chip">Ultra-low latency SSE</span>
+                            <span class="chip">OpenAI-compatible API</span>
+                            <span class="chip">Built by ApexLinux Technology</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero_right reveal">
+                    <div class="mock glass" aria-label="Product mock visual">
+                        <div class="mock_inner">
+                            <div class="mock_pulse" aria-hidden="true"></div>
+                            <div class="mock_topbar">
+                                <div class="mock_dots" aria-hidden="true">
+                                    <i></i><i></i><i></i>
+                                </div>
+                                <div class="mock_title">AskApex Orchestrator • /v1/chat/completions</div>
+                            </div>
+                            <div class="mock_content" aria-hidden="true">
+                                <div class="mock_card">
+                                    <div class="label">Policy layer</div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="mock_card">
+                                    <div class="label">RAG context</div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                                <div class="mock_card">
+                                    <div class="label">Streaming SSE</div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="mock_card">
+                                    <div class="label">Tool calls</div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="muted" style="margin-top: 12px;">
+                        Zero external images. Pure HTML/CSS mock for fast loading and consistent rendering.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="section compact">
+        <div class="container reveal">
+            <p class="h_eyebrow">Trusted by teams building serious AI</p>
+            <div class="logos" aria-label="Social proof logos">
+                <div class="logo_tile">ApexLabs</div>
+                <div class="logo_tile">QuantForge</div>
+                <div class="logo_tile">NovaSec</div>
+                <div class="logo_tile">VaultOps</div>
+                <div class="logo_tile">EdgeCore</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="section">
+        <div class="container">
+            <div class="grid12">
+                <div class="reveal" style="grid-column: 1 / -1;">
+                    <p class="h_eyebrow">Features</p>
+                    <h2>Designed for production from day one.</h2>
+                    <p class="muted">
+                        Build a premium experience on top of vLLM with orchestration that’s strict, fast, and controllable.
+                    </p>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="grid12" style="gap: 16px; align-items: start;">
+                        <div style="grid-column: 1 / -1;">
+                            <div class="icon" aria-hidden="true">01</div>
+                            <h3>Policy-first orchestration</h3>
+                            <p>
+                                Inject deterministic rules, safety constraints, and system instructions—server-side, not in the browser.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="icon" aria-hidden="true">02</div>
+                    <h3>RAG, without the chaos</h3>
+                    <p>
+                        Bound your context. Control chunks, tokens, and provenance. Keep responses grounded and auditable.
+                    </p>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="icon" aria-hidden="true">03</div>
+                    <h3>Streaming that feels instant</h3>
+                    <p>
+                        SSE end-to-end with minimal buffering for lower latency and tighter tail performance.
+                    </p>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="icon" aria-hidden="true">04</div>
+                    <h3>OpenAI-compatible API</h3>
+                    <p>
+                        Plug into existing tooling while keeping your gateway firmly in control of behavior and policy.
+                    </p>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="icon" aria-hidden="true">05</div>
+                    <h3>Tool calls, cleanly managed</h3>
+                    <p>
+                        Detect tool calls, execute server-side logic, and resume generation predictably—without leaking internals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="section">
+        <div class="container">
+            <div class="grid12">
+                <div class="reveal" style="grid-column: 1 / -1;">
+                    <p class="h_eyebrow">How it works</p>
+                    <h2>Simple flow. Serious engineering.</h2>
+                    <p class="muted">A clean orchestration pipeline that remains understandable and debuggable.</p>
+                </div>
+
+                <div class="reveal" style="grid-column: 1 / -1;">
+                    <div class="steps" aria-label="How it works steps">
+                        <div class="step">
+                            <div class="step_num">1</div>
+                            <div>
+                                <h3>WebUI sends chat</h3>
+                                <p>Messages arrive as OpenAI-style JSON. You can include full history—gateway will enforce bounds.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step_num">2</div>
+                            <div>
+                                <h3>Gateway injects policy + RAG</h3>
+                                <p>Deterministic instruction + grounded context is added server-side, keeping client simple and safe.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step_num">3</div>
+                            <div>
+                                <h3>vLLM streams tokens back</h3>
+                                <p>SSE streaming returns deltas as they’re generated. Smooth UI, minimal latency.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step_num">4</div>
+                            <div>
+                                <h3>Tools run when needed</h3>
+                                <p>Tool calls can be executed server-side and safely resumed—no browser trust required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section">
+        <div class="container">
+            <div class="grid12">
+                <div class="reveal" style="grid-column: 1 / -1;">
+                    <p class="h_eyebrow">Testimonials</p>
+                    <h2>Loved by teams that ship.</h2>
+                    <p class="muted">A premium feel is not optional—customers can tell in 30 seconds.</p>
+                </div>
+
+                <div class="card quote reveal" style="grid-column: 1 / -1;">
+                    <p>
+                        “The streaming feels unreal. Our users stopped complaining about latency immediately—and the policy controls are exactly what we needed.”
+                    </p>
+                    <div class="quote_footer">
+                        <div>
+                            <div class="quote_name">Head of Platform</div>
+                            <div class="muted">Security-first FinTech</div>
+                        </div>
+                        <div class="badge hot">p99 wins</div>
+                    </div>
+                </div>
+
+                <div class="card quote reveal" style="grid-column: 1 / -1;">
+                    <p>
+                        “RAG went from unpredictable to boring—in the best way. Boundaries, provenance, and consistent behavior across models.”
+                    </p>
+                    <div class="quote_footer">
+                        <div>
+                            <div class="quote_name">ML Engineer</div>
+                            <div class="muted">Enterprise Search</div>
+                        </div>
+                        <div class="badge">grounded</div>
+                    </div>
+                </div>
+
+                <div class="card quote reveal" style="grid-column: 1 / -1;">
+                    <p>
+                        “We integrated in a day because it speaks the OpenAI dialect. The gateway gives us control without ripping out our stack.”
+                    </p>
+                    <div class="quote_footer">
+                        <div>
+                            <div class="quote_name">CTO</div>
+                            <div class="muted">Modern SaaS</div>
+                        </div>
+                        <div class="badge">fast setup</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="section">
+        <div class="container">
+            <div class="grid12">
+                <div class="reveal" style="grid-column: 1 / -1;">
+                    <p class="h_eyebrow">Pricing</p>
+                    <h2>Premium, simple tiers.</h2>
+                    <p class="muted">Start small. Scale to enterprise with confidence and clear boundaries.</p>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="stack16">
+                        <div class="badge">Starter</div>
+                        <div class="price">
+                            <div class="price_tag">$49<span>/mo</span></div>
+                            <p class="muted">For early teams building their first AI workflows.</p>
+                        </div>
+                        <ul class="list">
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>OpenAI-compatible chat</li>
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>Streaming SSE</li>
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>Basic policy injection</li>
+                        </ul>
+                        <a class="btn primary" href="#chat" aria-label="Start with Starter plan">Start Chat</a>
+                    </div>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="stack16">
+                        <div class="badge hot">Pro</div>
+                        <div class="price">
+                            <div class="price_tag">$199<span>/mo</span></div>
+                            <p class="muted">For teams shipping RAG + tools to real customers.</p>
+                        </div>
+                        <ul class="list">
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>RAG context boundaries</li>
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>Tool calls + orchestration</li>
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>Usage limits & audit hooks</li>
+                        </ul>
+                        <a class="btn primary" href="#chat" aria-label="Start with Pro plan">Start Chat</a>
+                    </div>
+                </div>
+
+                <div class="card reveal" style="grid-column: 1 / -1;">
+                    <div class="stack16">
+                        <div class="badge">Enterprise</div>
+                        <div class="price">
+                            <div class="price_tag">Custom<span>/yr</span></div>
+                            <p class="muted">For regulated environments and serious scale.</p>
+                        </div>
+                        <ul class="list">
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>SSO / tenant isolation</li>
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>Private deployments</li>
+                            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.6 4.9 12.3l1.4-1.4 2.9 2.9 8.4-8.4 1.4 1.4z"/></svg></span>Dedicated performance tuning</li>
+                        </ul>
+                        <a class="btn" href="#chat" aria-label="Contact sales and open chat">Talk to us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+        <div class="container">
+            <div class="grid12">
+                <div class="reveal" style="grid-column: 1 / -1;">
+                    <p class="h_eyebrow">FAQ</p>
+                    <h2>Clear answers. No fluff.</h2>
+                    <p class="muted">Everything you need to know to get started quickly.</p>
+                </div>
+
+                <div class="reveal" style="grid-column: 1 / -1;">
+                    <div class="faq" aria-label="Frequently asked questions">
+                        <details>
+                            <summary>
+                                Is AskApex AI compatible with OpenAI-style clients?
+                                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="rgba(255,255,255,0.75)" d="M12 15.5 5.5 9l1.4-1.4L12 12.7l5.1-5.1L18.5 9z"></path>
+                                </svg>
+                            </summary>
+                            <div class="faq_body">
+                                Yes. The gateway supports OpenAI-style endpoints and SSE streaming. You can integrate existing tools while controlling policy server-side.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>
+                                Why does streaming sometimes arrive character-by-character?
+                                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="rgba(255,255,255,0.75)" d="M12 15.5 5.5 9l1.4-1.4L12 12.7l5.1-5.1L18.5 9z"></path>
+                                </svg>
+                            </summary>
+                            <div class="faq_body">
+                                Models generate tokens, not words. SSE streams deltas as they are produced. This is expected behavior for low-latency streaming.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>
+                                Do I have to send full chat history every request?
+                                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="rgba(255,255,255,0.75)" d="M12 15.5 5.5 9l1.4-1.4L12 12.7l5.1-5.1L18.5 9z"></path>
+                                </svg>
+                            </summary>
+                            <div class="faq_body">
+                                Most clients do, because models are stateless. In production you typically trim history, summarize, or use RAG memory to remain within context limits.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>
+                                Can I enforce strict request size and token budgets?
+                                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="rgba(255,255,255,0.75)" d="M12 15.5 5.5 9l1.4-1.4L12 12.7l5.1-5.1L18.5 9z"></path>
+                                </svg>
+                            </summary>
+                            <div class="faq_body">
+                                Yes. The gateway should enforce byte caps at HTTP ingress and token budgeting before forwarding to vLLM, ensuring predictable behavior under load.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>
+                                Is this page optimized for performance and accessibility?
+                                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="rgba(255,255,255,0.75)" d="M12 15.5 5.5 9l1.4-1.4L12 12.7l5.1-5.1L18.5 9z"></path>
+                                </svg>
+                            </summary>
+                            <div class="faq_body">
+                                Yes. No heavy libraries, CSS-first visuals, accessible headings, focus states, and animations that respect prefers-reduced-motion.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section">
+        <div class="container">
+            <div class="card reveal">
+                <div class="grid12" style="align-items: center;">
+                    <div style="grid-column: 1 / -1;">
+                        <p class="h_eyebrow">Ready</p>
+                        <h2>Ship a premium AI experience this week.</h2>
+                        <p class="muted">Start with a clean chat, then add policy, RAG, and tools brick by brick.</p>
+                    </div>
+                    <div style="grid-column: 1 / -1; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <a class="btn primary" href="#chat" aria-label="Start chat now">Start Chat</a>
+                        <a class="btn" href="#pricing" aria-label="View pricing options">View Pricing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat -->
+    <!-- Chat Module: centered before chat, drops down after first message -->
+    <section id="chat" class="chat_stage section">
+        <div class="container">
+            <div id="chatStage" class="chat_stage_inner center_stage">
+                <div class="chat_panel glass reveal" role="region" aria-label="Chat with AskApex AI">
+                    <div class="chat_panel_inner">
+                        <div class="chat_header">
+                            <div class="chat_header_left">
+                                <div class="chat_title">AskApex AI</div>
+                                <div class="chat_sub">What can I help with?, This is Crypto powered AI</div>
+                            </div>
+                            <div class="chat_status">
+                                <div id="statusDot" class="status_dot" aria-hidden="true"></div>
+                                <div id="statusText" aria-live="polite">Ready</div>
+                            </div>
+                        </div>
+
+                        <div id="chatBody" class="chat_body" aria-label="Chat transcript">
+                            <div id="chatIntro" class="chat_intro">
+                                <h3>What can I help with?, This is Crypto powered AI</h3>
+                                <p>AskApex AI, developed by ApexLinux Technology</p>
+                            </div>
+                            <div id="messages" class="chat_messages" aria-live="polite" aria-relevant="additions text"></div>
+                        </div>
+
+                        <div class="chat_footer">
+                            <div class="composer" aria-label="Chat composer">
+                                <div class="input_wrap">
+                                    <label class="sr_only" for="input">Message AskApex AI</label>
+                                    <textarea id="input" rows="1" placeholder="Message AskApex AI..." aria-label="Chat input"></textarea>
+                                </div>
+                                <button id="pauseBtn" class="btn danger" style="display: none;" aria-label="Pause response">Pause</button>
+                                <button id="sendBtn" class="btn primary" aria-label="Send message">Send</button>
+                            </div>
+                            <div class="chat_hint">
+                                <div><span class="kbd">Enter</span> send • <span class="kbd">Shift</span>+<span class="kbd">Enter</span> newline</div>
+                                <div class="muted">Streaming SSE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section compact" role="contentinfo">
+        <div class="container">
+            <div class="divider"></div>
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; padding: 18px 0;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div class="logo_mark" style="width: 32px; height: 32px; border-radius: 12px;"></div>
+                    <div>
+                        <div style="font-weight: 800;">AskApex AI</div>
+                        <div class="muted" style="font-size: 12px;">Developed by ApexLinux Technology</div>
+                    </div>
+                </div>
+                <div class="muted" style="font-size: 12px;">© <span id="year"></span> ApexLinux Technology. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+</main>
+
+<script>
+    (function ()
+    {
+        "use strict";
+
+        var ENDPOINT = "https://ai.askapex.ai/v1/chat/completions";
+
+        var hamburger = document.getElementById("hamburger");
+        var mobileMenu = document.getElementById("mobileMenu");
+
+        var chatStage = document.getElementById("chatStage");
+        var chatBody = document.getElementById("chatBody");
+        var messagesEl = document.getElementById("messages");
+        var chatIntro = document.getElementById("chatIntro");
+
+        var inputEl = document.getElementById("input");
+        var sendBtn = document.getElementById("sendBtn");
+        var pauseBtn = document.getElementById("pauseBtn");
+
+        var statusDot = document.getElementById("statusDot");
+        var statusText = document.getElementById("statusText");
+
+        var yearEl = document.getElementById("year");
+
+        var chatHistory = [];
+        var isBusy = false;
+        var activeAbortController = null;
+        var activeAssistantBubble = null;
+        var activeAssistantText = "";
+        var chatStarted = false;
+
+        function setBusyState(busy)
+        {
+            isBusy = busy;
+
+            if (busy)
+            {
+                statusDot.classList.add("busy");
+                statusText.textContent = "Thinking...";
+                sendBtn.disabled = true;
+                inputEl.disabled = true;
+                pauseBtn.style.display = "inline-flex";
+                pauseBtn.disabled = false;
+            } else
+            {
+                statusDot.classList.remove("busy");
+                statusText.textContent = "Ready";
+                sendBtn.disabled = false;
+                inputEl.disabled = false;
+                pauseBtn.style.display = "none";
+                pauseBtn.disabled = true;
+            }
+        }
+
+        function scrollToBottom()
+        {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function addMessage(role, content)
+        {
+            var row = document.createElement("div");
+            row.className = "msg_row " + role;
+
+            var bubble = document.createElement("div");
+            bubble.className = "bubble " + role;
+            bubble.textContent = content;
+
+            row.appendChild(bubble);
+            messagesEl.appendChild(row);
+
+            return bubble;
+        }
+
+        function ensureChatStarted()
+        {
+            if (chatStarted)
+            {
+                return;
+            }
+
+            chatStarted = true;
+
+            if (chatIntro)
+            {
+                chatIntro.style.display = "none";
+            }
+
+            if (chatStage)
+            {
+                chatStage.classList.remove("center_stage");
+            }
+
+            requestAnimationFrame(function ()
+            {
+                scrollToBottom();
+            });
+        }
+
+        function autoResizeTextarea()
+        {
+            inputEl.style.height = "auto";
+            inputEl.style.height = Math.min(inputEl.scrollHeight, 170) + "px";
+        }
+
+        function sanitizeUserText(text)
+        {
+            return (text || "").trim();
+        }
+
+        function buildRequestBody()
+        {
+            return {
+                "model": "/root/models/qwen3-30B-A3B-GPTQ-Int4",
+                "stream": true,
+                "messages": chatHistory
+            };
+        }
+
+        function tryParseJson(str)
+        {
+            try
+            {
+                return JSON.parse(str);
+            } catch (e)
+            {
+                return null;
+            }
+        }
+
+        function extractDeltaTextFromOpenAIEvent(obj)
+        {
+            if (!obj)
+            {
+                return "";
+            }
+
+            if (!obj.choices || obj.choices.length === 0)
+            {
+                return "";
+            }
+
+            var choice = obj.choices[0];
+
+            if (choice.delta && typeof choice.delta.content === "string")
+            {
+                return choice.delta.content;
+            }
+
+            if (choice.message && typeof choice.message.content === "string")
+            {
+                return choice.message.content;
+            }
+
+            if (typeof choice.text === "string")
+            {
+                return choice.text;
+            }
+
+            return "";
+        }
+
+        async function sendChat()
+        {
+            var userText = sanitizeUserText(inputEl.value);
+
+            if (!userText)
+            {
+                return;
+            }
+
+            if (isBusy)
+            {
+                return;
+            }
+
+            ensureChatStarted();
+
+            inputEl.value = "";
+            autoResizeTextarea();
+
+            chatHistory.push({
+                "role": "user",
+                "content": userText
+            });
+
+            addMessage("user", userText);
+
+            activeAssistantText = "";
+            activeAssistantBubble = addMessage("assistant", "");
+
+            setBusyState(true);
+            scrollToBottom();
+
+            activeAbortController = new AbortController();
+
+            var reqBody = buildRequestBody();
+
+            var resp = null;
+
+            try
+            {
+                resp = await fetch(ENDPOINT, {
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body": JSON.stringify(reqBody),
+                    "signal": activeAbortController.signal
+                });
+            } catch (e)
+            {
+                activeAssistantBubble.textContent = "Network error: " + String(e);
+                finalizeAssistantMessage();
+                return;
+            }
+
+            if (!resp.ok)
+            {
+                var errText = "";
+                try
+                {
+                    errText = await resp.text();
+                } catch (e)
+                {
+                    errText = "HTTP error";
+                }
+
+                activeAssistantBubble.textContent = "HTTP " + resp.status + ": " + errText;
+                finalizeAssistantMessage();
+                return;
+            }
+
+            var reader = resp.body.getReader();
+            var decoder = new TextDecoder("utf-8");
+            var buffer = "";
+
+            try
+            {
+                while (true)
+                {
+                    var readResult = await reader.read();
+
+                    if (readResult.done)
+                    {
+                        break;
+                    }
+
+                    buffer += decoder.decode(readResult.value, {"stream": true});
+
+                    var lines = buffer.split("\n");
+                    buffer = lines.pop();
+
+                    for (var i = 0; i < lines.length; i++)
+                    {
+                        var line = lines[i];
+
+                        if (!line)
+                        {
+                            continue;
+                        }
+
+                        if (line.startsWith("data:"))
+                        {
+                            var data = line.slice(5).trim();
+
+                            if (data === "[DONE]")
+                            {
+                                finalizeAssistantMessage();
+                                return;
+                            }
+
+                            var obj = tryParseJson(data);
+                            var delta = extractDeltaTextFromOpenAIEvent(obj);
+
+                            if (delta)
+                            {
+                                activeAssistantText += delta;
+                                activeAssistantBubble.textContent = activeAssistantText;
+                                scrollToBottom();
+                            }
+                        }
+                    }
+                }
+            } catch (e)
+            {
+                if (String(e).includes("AbortError"))
+                {
+                    activeAssistantBubble.textContent = activeAssistantText;
+                    finalizeAssistantMessage();
+                    return;
+                }
+
+                activeAssistantBubble.textContent = "Stream error: " + String(e);
+                finalizeAssistantMessage();
+                return;
+            }
+
+            finalizeAssistantMessage();
+        }
+
+        function finalizeAssistantMessage()
+        {
+            if (activeAssistantText && activeAssistantText.trim().length > 0)
+            {
+                chatHistory.push({
+                    "role": "assistant",
+                    "content": activeAssistantText
+                });
+            } else
+            {
+                if (activeAssistantBubble && activeAssistantBubble.textContent.trim().length > 0)
+                {
+                    chatHistory.push({
+                        "role": "assistant",
+                        "content": activeAssistantBubble.textContent
+                    });
+                }
+            }
+
+            activeAbortController = null;
+            activeAssistantBubble = null;
+            activeAssistantText = "";
+
+            setBusyState(false);
+            inputEl.focus();
+
+            /*
+                Phase #2 placeholder:
+                After completion, send a second request asking for 3-5 follow-up questions.
+                Render them as suggestion chips under the last assistant message.
+            */
+        }
+
+        function pauseStreaming()
+        {
+            if (!isBusy)
+            {
+                return;
+            }
+
+            if (activeAbortController)
+            {
+                pauseBtn.disabled = true;
+                activeAbortController.abort();
+            }
+        }
+
+        function setupMobileMenu()
+        {
+            if (!hamburger || !mobileMenu)
+            {
+                return;
+            }
+
+            hamburger.addEventListener("click", function ()
+            {
+                var isOpen = mobileMenu.classList.toggle("open");
+                hamburger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            });
+
+            var links = mobileMenu.querySelectorAll("a");
+            for (var i = 0; i < links.length; i++)
+            {
+                links[i].addEventListener("click", function ()
+                {
+                    mobileMenu.classList.remove("open");
+                    hamburger.setAttribute("aria-expanded", "false");
+                });
+            }
+        }
+
+        function setupReveal()
+        {
+            var nodes = document.querySelectorAll(".reveal");
+
+            if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            {
+                for (var k = 0; k < nodes.length; k++)
+                {
+                    nodes[k].classList.add("in");
+                }
+                return;
+            }
+
+            var io = new IntersectionObserver(function (entries)
+            {
+                for (var i = 0; i < entries.length; i++)
+                {
+                    if (entries[i].isIntersecting)
+                    {
+                        entries[i].target.classList.add("in");
+                        io.unobserve(entries[i].target);
+                    }
+                }
+            }, {threshold: 0.12});
+
+            for (var j = 0; j < nodes.length; j++)
+            {
+                io.observe(nodes[j]);
+            }
+        }
+
+        function bindComposer()
+        {
+            sendBtn.addEventListener("click", function ()
+            {
+                sendChat();
+            });
+
+            pauseBtn.addEventListener("click", function ()
+            {
+                pauseStreaming();
+            });
+
+            inputEl.addEventListener("input", function ()
+            {
+                autoResizeTextarea();
+            });
+
+            inputEl.addEventListener("keydown", function (e)
+            {
+                if (e.key === "Enter" && !e.shiftKey)
+                {
+                    e.preventDefault();
+                    sendChat();
+                }
+            });
+        }
+
+        function init()
+        {
+            if (yearEl)
+            {
+                yearEl.textContent = String(new Date().getFullYear());
+            }
+
+            setupMobileMenu();
+            setupReveal();
+            bindComposer();
+            autoResizeTextarea();
+            inputEl.focus();
+        }
+
+        init();
+    })();
+</script>
+</body>
+</html>
