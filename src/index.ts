@@ -13,6 +13,21 @@ export default {
             upstreamUrl.hostname = "192.168.200.2";
             upstreamUrl.protocol = "http:";
             upstreamUrl.port = "8001";
+            console.log({
+                href: upstreamUrl.href,
+                origin: upstreamUrl.origin,
+                protocol: upstreamUrl.protocol,
+                username: upstreamUrl.username,
+                password: upstreamUrl.password,
+                host: upstreamUrl.host,
+                hostname: upstreamUrl.hostname,
+                port: upstreamUrl.port,
+                pathname: upstreamUrl.pathname,
+                search: upstreamUrl.search,
+                searchParams: upstreamUrl.searchParams.toString(),
+                hash: upstreamUrl.hash
+            });
+
             var headers = new Headers(request.headers);
 
             headers.delete("host");
