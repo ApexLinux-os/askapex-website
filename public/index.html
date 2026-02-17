@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskApex AI</title>
+    <style>
+        :root
+        {
+            --bg0: #070A12;
+            --bg1: #0B1220;
+            --card: rgba(255, 255, 255, 0.06);
+            --card2: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: rgba(255, 255, 255, 0.92);
+            --muted: rgba(255, 255, 255, 0.65);
+            --muted2: rgba(255, 255, 255, 0.45);
+            --accent: #7C5CFF;
+            --accent2: #16F0C8;
+            --danger: #FF4D6D;
+            --shadow: rgba(0, 0, 0, 0.55);
+        }
+
+        *
+        {
+            box-sizing: border-box;
+        }
+
+        html, body
+        {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(1200px 600px at 20% 10%, rgba(124, 92, 255, 0.22), transparent 60%),
+            radial-gradient(1000px 500px at 80% 20%, rgba(22, 240, 200, 0.16), transparent 55%),
+            radial-gradient(900px 520px at 50% 90%, rgba(124, 92, 255, 0.12), transparent 60%),
+            linear-gradient(180deg, var(--bg0), var(--bg1));
+            color: var(--text);
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .page
+        {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chat_shell
+        {
+            width: min(960px, 100%);
+            height: min(780px, 100%);
+            border-radius: 24px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04));
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 120px var(--shadow);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header
+        {
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .brand
+        {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            user-select: none;
+        }
+
+        .logo
+        {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.05)),
+            linear-gradient(135deg, rgba(124, 92, 255, 0.95), rgba(22, 240, 200, 0.75));
+            box-shadow: 0 10px 30px rgba(124, 92, 255, 0.25);
+        }
+
+        .brand_text
+        {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05;
+        }
+
+        .brand_text .name
+        {
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            font-size: 14px;
+        }
+
+        .brand_text .sub
+        {
+            font-size: 12px;
+            color: var(--muted2);
+        }
+
+        .status
+        {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .dot
+        {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(22, 240, 200, 0.95);
+            box-shadow: 0 0 0 6px rgba(22, 240, 200, 0.12);
+        }
+
+        .dot.busy
+        {
+            background: rgba(124, 92, 255, 0.95);
+            box-shadow: 0 0 0 6px rgba(124, 92, 255, 0.12);
+        }
+
+        .body
+        {
+            flex: 1;
+            overflow: auto;
+            padding: 18px 18px 8px 18px;
+        }
+
+        .body::-webkit-scrollbar
+        {
+            width: 10px;
+        }
+
+        .body::-webkit-scrollbar-thumb
+        {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+        }
+
+        .greeting
+        {
+            margin: 24px auto 12px auto;
+            max-width: 720px;
+            padding: 18px 18px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .greeting .line1
+        {
+            font-size: 18px;
+            font-weight: 650;
+            margin: 0 0 8px 0;
+            letter-spacing: 0.2px;
+        }
+
+        .greeting .line2
+        {
+            font-size: 13px;
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .messages
+        {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 12px;
+        }
+
+        .msg_row
+        {
+            display: flex;
+            width: 100%;
+        }
+
+        .msg_row.user
+        {
+            justify-content: flex-end;
+        }
+
+        .msg_row.assistant
+        {
+            justify-content: flex-start;
+        }
+
+        .bubble
+        {
+            max-width: min(760px, 92%);
+            padding: 12px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.45;
+            font-size: 14px;
+        }
+
+        .bubble.user
+        {
+            background: linear-gradient(180deg, rgba(124, 92, 255, 0.22), rgba(124, 92, 255, 0.10));
+            border: 1px solid rgba(124, 92, 255, 0.28);
+        }
+
+        .bubble.assistant
+        {
+            background: linear-gradient(180deg, rgba(22, 240, 200, 0.14), rgba(255, 255, 255, 0.04));
+            border: 1px solid rgba(22, 240, 200, 0.22);
+        }
+
+        .footer
+        {
+            padding: 14px 14px 16px 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(0, 0, 0, 0.10);
+        }
+
+        .composer
+        {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .input_wrap
+        {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 10px 12px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        textarea
+        {
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.4;
+            min-height: 24px;
+            max-height: 160px;
+            padding: 0;
+            margin: 0;
+        }
+
+        textarea::placeholder
+        {
+            color: rgba(255, 255, 255, 0.40);
+        }
+
+        .btn
+        {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 650;
+            letter-spacing: 0.2px;
+            transition: transform 120ms ease, background 120ms ease, border 120ms ease, opacity 120ms ease;
+            user-select: none;
+            min-width: 92px;
+        }
+
+        .btn:hover
+        {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .btn:active
+        {
+            transform: translateY(0px);
+        }
+
+        .btn.primary
+        {
+            background: linear-gradient(135deg, rgba(124, 92, 255, 0.95), rgba(22, 240, 200, 0.70));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .btn.primary:hover
+        {
+            background: linear-gradient(135deg, rgba(124, 92, 255, 1.00), rgba(22, 240, 200, 0.78));
+        }
+
+        .btn.danger
+        {
+            background: rgba(255, 77, 109, 0.14);
+            border: 1px solid rgba(255, 77, 109, 0.28);
+        }
+
+        .btn.danger:hover
+        {
+            background: rgba(255, 77, 109, 0.20);
+            border: 1px solid rgba(255, 77, 109, 0.34);
+        }
+
+        .btn:disabled
+        {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .right_controls
+        {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .hint
+        {
+            max-width: 860px;
+            margin: 8px auto 0 auto;
+            font-size: 12px;
+            color: var(--muted2);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .hint code
+        {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.70);
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="chat_shell">
+        <div class="header">
+            <div class="brand">
+                <div class="logo"></div>
+                <div class="brand_text">
+                    <div class="name">AskApex AI</div>
+                    <div class="sub">Crypto powered AI</div>
+                </div>
+            </div>
+            <div class="status">
+                <div id="statusDot" class="dot"></div>
+                <div id="statusText">Ready</div>
+            </div>
+        </div>
+
+        <div id="chatBody" class="body">
+            <div id="greeting" class="greeting">
+                <p class="line1">What can I help with?, This is Crypto powered AI</p>
+                <p class="line2">AskApex AI, developed by ApexLinux Technology</p>
+            </div>
+            <div id="messages" class="messages"></div>
+        </div>
+
+        <div class="footer">
+            <div class="composer">
+                <div class="input_wrap">
+                    <textarea id="input" rows="1" placeholder="Message AskApex AI..."></textarea>
+                </div>
+                <div class="right_controls">
+                    <button id="pauseBtn" class="btn danger" style="display: none;">Pause</button>
+                    <button id="sendBtn" class="btn primary">Send</button>
+                </div>
+            </div>
+            <div class="hint">
+                <div>Endpoint: <code>https://ai.askapex.ai/v1/chat/completions</code></div>
+                <div>Streaming: <code>SSE</code></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ()
+    {
+        "use strict";
+
+        var ENDPOINT = "https://ai.askapex.ai/v1/chat/completions";
+
+        var chatBody = document.getElementById("chatBody");
+        var messagesEl = document.getElementById("messages");
+        var greetingEl = document.getElementById("greeting");
+        var inputEl = document.getElementById("input");
+        var sendBtn = document.getElementById("sendBtn");
+        var pauseBtn = document.getElementById("pauseBtn");
+        var statusDot = document.getElementById("statusDot");
+        var statusText = document.getElementById("statusText");
+
+        var chatHistory = [];
+        var isBusy = false;
+        var activeAbortController = null;
+        var activeAssistantBubble = null;
+        var activeAssistantText = "";
+
+        function setBusyState(busy)
+        {
+            isBusy = busy;
+
+            if (busy)
+            {
+                statusDot.classList.add("busy");
+                statusText.textContent = "Thinking...";
+                sendBtn.disabled = true;
+                inputEl.disabled = true;
+                pauseBtn.style.display = "inline-block";
+                pauseBtn.disabled = false;
+            }
+            else
+            {
+                statusDot.classList.remove("busy");
+                statusText.textContent = "Ready";
+                sendBtn.disabled = false;
+                inputEl.disabled = false;
+                pauseBtn.style.display = "none";
+                pauseBtn.disabled = true;
+            }
+        }
+
+        function scrollToBottom()
+        {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function addMessage(role, content)
+        {
+            if (greetingEl)
+            {
+                greetingEl.style.display = "none";
+            }
+
+            var row = document.createElement("div");
+            row.className = "msg_row " + role;
+
+            var bubble = document.createElement("div");
+            bubble.className = "bubble " + role;
+            bubble.textContent = content;
+
+            row.appendChild(bubble);
+            messagesEl.appendChild(row);
+
+            scrollToBottom();
+
+            return bubble;
+        }
+
+        function autoResizeTextarea()
+        {
+            inputEl.style.height = "auto";
+            inputEl.style.height = Math.min(inputEl.scrollHeight, 160) + "px";
+        }
+
+        function sanitizeUserText(text)
+        {
+            return (text || "").trim();
+        }
+
+        function buildRequestBody()
+        {
+            return {
+                "model": "default",
+                "stream": true,
+                "messages": chatHistory
+            };
+        }
+
+        function decodeSseLines(buffer)
+        {
+            var parts = buffer.split("\n");
+            return parts;
+        }
+
+        function tryParseJson(str)
+        {
+            try
+            {
+                return JSON.parse(str);
+            }
+            catch (e)
+            {
+                return null;
+            }
+        }
+
+        function extractDeltaTextFromOpenAIEvent(obj)
+        {
+            if (!obj)
+            {
+                return "";
+            }
+
+            if (!obj.choices || obj.choices.length === 0)
+            {
+                return "";
+            }
+
+            var choice = obj.choices[0];
+
+            if (choice.delta && typeof choice.delta.content === "string")
+            {
+                return choice.delta.content;
+            }
+
+            if (choice.message && typeof choice.message.content === "string")
+            {
+                return choice.message.content;
+            }
+
+            if (typeof choice.text === "string")
+            {
+                return choice.text;
+            }
+
+            return "";
+        }
+
+        async function sendChat()
+        {
+            var userText = sanitizeUserText(inputEl.value);
+
+            if (!userText)
+            {
+                return;
+            }
+
+            if (isBusy)
+            {
+                return;
+            }
+
+            inputEl.value = "";
+            autoResizeTextarea();
+
+            chatHistory.push({
+                "role": "user",
+                "content": userText
+            });
+
+            addMessage("user", userText);
+
+            activeAssistantText = "";
+            activeAssistantBubble = addMessage("assistant", "");
+
+            setBusyState(true);
+
+            activeAbortController = new AbortController();
+
+            var reqBody = buildRequestBody();
+
+            var resp = null;
+
+            try
+            {
+                resp = await fetch(ENDPOINT, {
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body": JSON.stringify(reqBody),
+                    "signal": activeAbortController.signal
+                });
+            }
+            catch (e)
+            {
+                activeAssistantBubble.textContent = "Network error: " + String(e);
+                finalizeAssistantMessage();
+                return;
+            }
+
+            if (!resp.ok)
+            {
+                var errText = "";
+                try
+                {
+                    errText = await resp.text();
+                }
+                catch (e)
+                {
+                    errText = "HTTP error";
+                }
+
+                activeAssistantBubble.textContent = "HTTP " + resp.status + ": " + errText;
+                finalizeAssistantMessage();
+                return;
+            }
+
+            var reader = resp.body.getReader();
+            var decoder = new TextDecoder("utf-8");
+            var buffer = "";
+
+            try
+            {
+                while (true)
+                {
+                    var readResult = await reader.read();
+
+                    if (readResult.done)
+                    {
+                        break;
+                    }
+
+                    buffer += decoder.decode(readResult.value, { "stream": true });
+
+                    var lines = decodeSseLines(buffer);
+                    buffer = lines.pop();
+
+                    for (var i = 0; i < lines.length; i++)
+                    {
+                        var line = lines[i];
+
+                        if (!line)
+                        {
+                            continue;
+                        }
+
+                        if (line.startsWith("data:"))
+                        {
+                            var data = line.slice(5).trim();
+
+                            if (data === "[DONE]")
+                            {
+                                finalizeAssistantMessage();
+                                return;
+                            }
+
+                            var obj = tryParseJson(data);
+                            var delta = extractDeltaTextFromOpenAIEvent(obj);
+
+                            if (delta)
+                            {
+                                activeAssistantText += delta;
+                                activeAssistantBubble.textContent = activeAssistantText;
+                                scrollToBottom();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (e)
+            {
+                if (String(e).includes("AbortError"))
+                {
+                    activeAssistantBubble.textContent = activeAssistantText;
+                    finalizeAssistantMessage();
+                    return;
+                }
+
+                activeAssistantBubble.textContent = "Stream error: " + String(e);
+                finalizeAssistantMessage();
+                return;
+            }
+
+            finalizeAssistantMessage();
+        }
+
+        function finalizeAssistantMessage()
+        {
+            if (activeAssistantText && activeAssistantText.trim().length > 0)
+            {
+                chatHistory.push({
+                    "role": "assistant",
+                    "content": activeAssistantText
+                });
+            }
+            else
+            {
+                if (activeAssistantBubble && activeAssistantBubble.textContent.trim().length > 0)
+                {
+                    chatHistory.push({
+                        "role": "assistant",
+                        "content": activeAssistantBubble.textContent
+                    });
+                }
+            }
+
+            activeAbortController = null;
+            activeAssistantBubble = null;
+            activeAssistantText = "";
+
+            setBusyState(false);
+
+            inputEl.focus();
+
+            /*
+                Phase #2 placeholder:
+                After completion, send a second request asking for 3-5 follow-up questions.
+                Render them as suggestion chips below the last assistant message.
+            */
+        }
+
+        function pauseStreaming()
+        {
+            if (!isBusy)
+            {
+                return;
+            }
+
+            if (activeAbortController)
+            {
+                pauseBtn.disabled = true;
+                activeAbortController.abort();
+            }
+        }
+
+        sendBtn.addEventListener("click", function ()
+        {
+            sendChat();
+        });
+
+        pauseBtn.addEventListener("click", function ()
+        {
+            pauseStreaming();
+        });
+
+        inputEl.addEventListener("input", function ()
+        {
+            autoResizeTextarea();
+        });
+
+        inputEl.addEventListener("keydown", function (e)
+        {
+            if (e.key === "Enter" && !e.shiftKey)
+            {
+                e.preventDefault();
+                sendChat();
+            }
+        });
+
+        autoResizeTextarea();
+        inputEl.focus();
+    })();
+</script>
+</body>
+</html>

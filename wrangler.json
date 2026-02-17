@@ -3,6 +3,11 @@
 	"main": "src/index.ts",
 	"name": "askapex-website2",
 	"upload_source_maps": true,
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS"
+		//    "run_worker_first": true
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",
