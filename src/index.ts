@@ -10,7 +10,7 @@ export default {
         if (url.pathname === "/v1/chat/completions" || url.pathname === "/v1/models")
         {
             var upstreamUrl = new URL(request.url);
-            upstreamUrl.hostname = "ai.askapex.ai";
+            upstreamUrl.hostname = "192.168.200.2";
 
             var headers = new Headers(request.headers);
 
