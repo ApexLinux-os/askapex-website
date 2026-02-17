@@ -3,18 +3,18 @@
   "main": "src/index.ts",
   "name": "askapex-website2",
   "upload_source_maps": true,
+  "vpc_services": [
+    {
+      "binding": "VPC_SERVICE",
+      "service_id": "019c6b2a-4c74-7362-8a85-bc5c7cc308fe",
+      "remote": true
+    }
+  ],
   "assets": {
     "directory": "./public",
     "binding": "ASSETS"
     //    "run_worker_first": true
   },
-  //	"vpc_services": [
-  //		{
-  //			"binding": "VPC_SERVICE",
-  //			"service_id": "019c6b2a-4c74-7362-8a85-bc5c7cc308fe",
-  //			"remote": true
-  //		}
-  //	],
   "d1_databases": [
     {
       "binding": "DB",
