@@ -6,7 +6,7 @@
   "vpc_services": [
     {
       "binding": "VPC_SERVICE",
-      "service_id": "019c6b2a-4c74-7362-8a85-bc5c7cc308fe",
+      "service_id": "019c6bcc-eada-75e0-92ff-3d1f2139853f",
       "remote": true
     }
   ],
