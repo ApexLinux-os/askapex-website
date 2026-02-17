@@ -1,0 +1,16 @@
+{
+	"compatibility_date": "2025-10-08",
+	"main": "src/index.ts",
+	"name": "askapex-website2",
+	"upload_source_maps": true,
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_id": "4b8dbc27-6d3b-4bb2-898a-9f6555354c0a",
+			"database_name": "coin"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}
