@@ -11,7 +11,8 @@ export default {
         {
             var upstreamUrl = new URL(request.url);
             upstreamUrl.hostname = "192.168.200.2";
-
+            upstreamUrl.protocol = "http:";
+            upstreamUrl.port = "8001";
             var headers = new Headers(request.headers);
 
             headers.delete("host");
