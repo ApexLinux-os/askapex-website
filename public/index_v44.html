@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AskApex — AI-Powered Crypto Intelligence</title>
-
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%236366f1'/%3E%3Cstop offset='100%25' style='stop-color:%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 10 L85 30 L85 70 L50 90 L15 70 L15 30 Z' fill='url(%23g)' stroke='%238b93ff' stroke-width='2'/%3E%3C/svg%3E">
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -103,8 +103,8 @@
         body::before {
             content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
             background:
-                    radial-gradient(ellipse 80% 60% at 10% 10%, rgba(99,102,241,.10) 0%,transparent 60%),
-                    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(124,58,237,.08) 0%,transparent 60%);
+                radial-gradient(ellipse 80% 60% at 10% 10%, rgba(99,102,241,.10) 0%,transparent 60%),
+                radial-gradient(ellipse 60% 50% at 90% 90%, rgba(124,58,237,.08) 0%,transparent 60%);
         }
         .mesh {
             position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0;
@@ -459,7 +459,7 @@
         }
         .cmsg-av.ai-av   { background:linear-gradient(135deg,var(--accent),var(--purple)); box-shadow:0 0 12px var(--glow); }
         .cmsg-av.user-av { background:rgba(99,102,241,.18); border:1px solid var(--border-hi); font-size:12px; }
-
+        
         /* ═══════════════════════════════════════════════════════
            ENHANCED MESSAGE BUBBLE STYLING
         ═══════════════════════════════════════════════════════ */
@@ -494,7 +494,7 @@
         }
 
         /* Headings in messages */
-        .cmsg-bub h1, .cmsg-bub h2, .cmsg-bub h3,
+        .cmsg-bub h1, .cmsg-bub h2, .cmsg-bub h3, 
         .cmsg-bub h4, .cmsg-bub h5, .cmsg-bub h6 {
             font-weight:700;
             color:var(--accent2);
@@ -505,7 +505,7 @@
         .cmsg-bub h2 { font-size:1.25rem; }
         .cmsg-bub h3 { font-size:1.1rem; }
         .cmsg-bub h4, .cmsg-bub h5, .cmsg-bub h6 { font-size:1rem; }
-        .cmsg-bub h1:first-child, .cmsg-bub h2:first-child,
+        .cmsg-bub h1:first-child, .cmsg-bub h2:first-child, 
         .cmsg-bub h3:first-child { margin-top:0; }
 
         /* Lists in messages */
@@ -550,7 +550,7 @@
         }
 
         /* Nested lists */
-        .cmsg-bub ul ul, .cmsg-bub ol ol,
+        .cmsg-bub ul ul, .cmsg-bub ol ol, 
         .cmsg-bub ul ol, .cmsg-bub ol ul {
             margin:6px 0;
         }
@@ -565,12 +565,12 @@
         .cmsg-bub pre {
             background:rgba(0,0,0,.45); border:1px solid rgba(99,102,241,.14);
             border-radius:var(--r-md); padding:16px 18px; margin:14px 0;
-            overflow-x:auto; font-family:var(--mono); font-size:.81rem;
+            overflow-x:auto; font-family:var(--mono); font-size:.81rem; 
             line-height:1.6; color:#c4b5fd;
             box-shadow:inset 0 2px 8px rgba(0,0,0,.3);
         }
-        .cmsg-bub pre code {
-            background:none; border:none; padding:0; color:inherit;
+        .cmsg-bub pre code { 
+            background:none; border:none; padding:0; color:inherit; 
             font-size:inherit; font-weight:400;
         }
 
@@ -1130,321 +1130,321 @@
 </div>
 
 <script>
-    const CFG = {
-        API:            "https://lab.askapex.ai/v1/chat/completions",
-        MODEL:          "/root/models/qwen3-30B-A3B-GPTQ-Int4",
-        MAX_TOKENS:     2048,
-        TEMPERATURE:    0.7,
-        PHASE2:         false,
-    };
+const CFG = {
+    API:            "https://lab.askapex.ai/v1/chat/completions",
+    MODEL:          "/root/models/qwen3-30B-A3B-GPTQ-Int4",
+    MAX_TOKENS:     2048,
+    TEMPERATURE:    0.7,
+    PHASE2:         false,
+};
 
-    const S = {
-        history:   [],
-        streaming: false,
-        abort:     null,
-    };
+const S = {
+    history:   [],
+    streaming: false,
+    abort:     null,
+};
 
-    const $  = id => document.getElementById(id);
-    const D  = {
-        overlay:  $("chat-overlay"),
-        main:     $("chat-main"),
-        msgs:     $("chat-msgs"),
-        inner:    $("msgs-inner"),
-        ta:       $("chat-ta"),
-        send:     $("c-send"),
-        pause:    $("c-pause"),
-        hint:     $("chat-hint"),
-        heroTa:   $("hero-ta"),
-        heroSend: $("hero-send"),
-    };
+const $  = id => document.getElementById(id);
+const D  = {
+    overlay:  $("chat-overlay"),
+    main:     $("chat-main"),
+    msgs:     $("chat-msgs"),
+    inner:    $("msgs-inner"),
+    ta:       $("chat-ta"),
+    send:     $("c-send"),
+    pause:    $("c-pause"),
+    hint:     $("chat-hint"),
+    heroTa:   $("hero-ta"),
+    heroSend: $("hero-send"),
+};
 
-    /* ══════════════════════════════════════════════════════════════════
-       ENHANCED MARKDOWN RENDERER - HANDLES HTML + MARKDOWN
-    ══════════════════════════════════════════════════════════════════ */
-    function renderContent(raw) {
-        // Step 1: Protect code blocks first
-        const codeBlocks = [];
-        let content = raw.replace(/```([\s\S]*?)```/g, (_, inner) => {
-            codeBlocks.push('<pre><code>' + escapeHtml(inner.trim()) + '</code></pre>');
-            return '\x00CODE' + (codeBlocks.length - 1) + '\x00';
-        });
-
-        // Step 2: Protect inline code
-        const inlineCodes = [];
-        content = content.replace(/`([^`\n]+)`/g, (_, c) => {
-            inlineCodes.push('<code>' + escapeHtml(c) + '</code>');
-            return '\x00INLINE' + (inlineCodes.length - 1) + '\x00';
-        });
-
-        // Step 3: Apply markdown transformations (bold, italic)
-        content = content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        content = content.replace(/\*(.+?)\*/g, '<em>$1</em>');
-        content = content.replace(/\b_(.+?)_\b/g, '<em>$1</em>');
-        content = content.replace(/__(.+?)__/g, '<strong>$1</strong>');
-
-        // Step 4: Handle line breaks - convert \n to <br>, but be smart about it
-        content = content.replace(/\n/g, '<br>');
-
-        // Step 5: Restore protected content (code blocks and inline code)
-        content = content.replace(/\x00CODE(\d+)\x00/g, (_, i) => codeBlocks[parseInt(i)]);
-        content = content.replace(/\x00INLINE(\d+)\x00/g, (_, i) => inlineCodes[parseInt(i)]);
-
-        return content;
-    }
-
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    function openChat(initialText) {
-        document.body.classList.add("chat-open");
-        D.overlay.classList.add("open");
-        D.overlay.setAttribute("aria-hidden","false");
-        document.getElementById("nav").style.opacity = "";
-        setTimeout(()=>{ D.ta.focus(); },500);
-        if (initialText) {
-            D.ta.value = initialText;
-            resizeTa();
-        }
-    }
-
-    function closeChat() {
-        D.overlay.classList.remove("open");
-        D.overlay.setAttribute("aria-hidden","true");
-        document.body.classList.remove("chat-open");
-    }
-
-    function heroSend() {
-        const t = D.heroTa ? D.heroTa.value.trim() : "";
-        openChat(t || "");
-        if (t) setTimeout(sendMsg, 550);
-    }
-
-    D.heroSend && D.heroSend.addEventListener("click", heroSend);
-    D.heroTa && D.heroTa.addEventListener("keydown", e=>{
-        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); heroSend(); }
+/* ══════════════════════════════════════════════════════════════════
+   ENHANCED MARKDOWN RENDERER - HANDLES HTML + MARKDOWN
+══════════════════════════════════════════════════════════════════ */
+function renderContent(raw) {
+    // Step 1: Protect code blocks first
+    const codeBlocks = [];
+    let content = raw.replace(/```([\s\S]*?)```/g, (_, inner) => {
+        codeBlocks.push('<pre><code>' + escapeHtml(inner.trim()) + '</code></pre>');
+        return '\x00CODE' + (codeBlocks.length - 1) + '\x00';
     });
-    D.heroTa && D.heroTa.addEventListener("input", ()=>{ resizeHeroTa(); });
 
-    function resizeHeroTa() {
-        if (!D.heroTa) return;
-        D.heroTa.style.height = "auto";
-        D.heroTa.style.height = Math.min(D.heroTa.scrollHeight, 140)+"px";
-    }
+    // Step 2: Protect inline code
+    const inlineCodes = [];
+    content = content.replace(/`([^`\n]+)`/g, (_, c) => {
+        inlineCodes.push('<code>' + escapeHtml(c) + '</code>');
+        return '\x00INLINE' + (inlineCodes.length - 1) + '\x00';
+    });
 
-    function resizeTa() {
-        D.ta.style.height = "auto";
-        D.ta.style.height = Math.min(D.ta.scrollHeight,160)+"px";
-    }
-    D.ta.addEventListener("input",()=>{
+    // Step 3: Apply markdown transformations (bold, italic)
+    content = content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    content = content.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    content = content.replace(/\b_(.+?)_\b/g, '<em>$1</em>');
+    content = content.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+    // Step 4: Handle line breaks - convert \n to <br>, but be smart about it
+    content = content.replace(/\n/g, '<br>');
+
+    // Step 5: Restore protected content (code blocks and inline code)
+    content = content.replace(/\x00CODE(\d+)\x00/g, (_, i) => codeBlocks[parseInt(i)]);
+    content = content.replace(/\x00INLINE(\d+)\x00/g, (_, i) => inlineCodes[parseInt(i)]);
+
+    return content;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function openChat(initialText) {
+    document.body.classList.add("chat-open");
+    D.overlay.classList.add("open");
+    D.overlay.setAttribute("aria-hidden","false");
+    document.getElementById("nav").style.opacity = "";
+    setTimeout(()=>{ D.ta.focus(); },500);
+    if (initialText) {
+        D.ta.value = initialText;
         resizeTa();
-        const rem = 4000 - D.ta.value.length;
-        D.hint.textContent = rem < 400
-            ? rem+" characters remaining"
-            : "Press Enter to send \u00b7 Shift+Enter for new line";
-    });
-    D.ta.addEventListener("keydown",e=>{
-        if (e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); if(!S.streaming) sendMsg(); }
-    });
-
-    function setStreaming(on) {
-        S.streaming     = on;
-        D.ta.disabled   = on;
-        D.send.disabled = on;
-        D.pause.classList.toggle("on", on);
     }
+}
 
-    function scrollBot(smooth) {
-        D.msgs.scrollTo({ top:D.msgs.scrollHeight, behavior:smooth?"smooth":"instant" });
+function closeChat() {
+    D.overlay.classList.remove("open");
+    D.overlay.setAttribute("aria-hidden","true");
+    document.body.classList.remove("chat-open");
+}
+
+function heroSend() {
+    const t = D.heroTa ? D.heroTa.value.trim() : "";
+    openChat(t || "");
+    if (t) setTimeout(sendMsg, 550);
+}
+
+D.heroSend && D.heroSend.addEventListener("click", heroSend);
+D.heroTa && D.heroTa.addEventListener("keydown", e=>{
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); heroSend(); }
+});
+D.heroTa && D.heroTa.addEventListener("input", ()=>{ resizeHeroTa(); });
+
+function resizeHeroTa() {
+    if (!D.heroTa) return;
+    D.heroTa.style.height = "auto";
+    D.heroTa.style.height = Math.min(D.heroTa.scrollHeight, 140)+"px";
+}
+
+function resizeTa() {
+    D.ta.style.height = "auto";
+    D.ta.style.height = Math.min(D.ta.scrollHeight,160)+"px";
+}
+D.ta.addEventListener("input",()=>{
+    resizeTa();
+    const rem = 4000 - D.ta.value.length;
+    D.hint.textContent = rem < 400
+        ? rem+" characters remaining"
+        : "Press Enter to send \u00b7 Shift+Enter for new line";
+});
+D.ta.addEventListener("keydown",e=>{
+    if (e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); if(!S.streaming) sendMsg(); }
+});
+
+function setStreaming(on) {
+    S.streaming     = on;
+    D.ta.disabled   = on;
+    D.send.disabled = on;
+    D.pause.classList.toggle("on", on);
+}
+
+function scrollBot(smooth) {
+    D.msgs.scrollTo({ top:D.msgs.scrollHeight, behavior:smooth?"smooth":"instant" });
+}
+
+function activateMsgsLayout() {
+    if (!D.overlay.classList.contains("has-msgs")) {
+        D.overlay.classList.add("has-msgs");
+        D.msgs.setAttribute("aria-relevant","additions");
     }
+}
 
-    function activateMsgsLayout() {
-        if (!D.overlay.classList.contains("has-msgs")) {
-            D.overlay.classList.add("has-msgs");
-            D.msgs.setAttribute("aria-relevant","additions");
+function addUserMsg(text) {
+    activateMsgsLayout();
+    const row = document.createElement("div");
+    row.className = "cmsg user";
+    row.innerHTML =
+        '<div class="cmsg-bub">' + renderContent(text) + '</div>' +
+        '<div class="cmsg-av user-av" aria-hidden="true">&#128100;</div>';
+    D.inner.appendChild(row);
+    scrollBot(false);
+}
+
+function createAiMsg() {
+    activateMsgsLayout();
+    const row    = document.createElement("div"); row.className="cmsg ai";
+    row.setAttribute("aria-live","polite");
+    const av     = document.createElement("div"); av.className="cmsg-av ai-av"; av.setAttribute("aria-hidden","true"); av.textContent="\u2B21";
+    const bub    = document.createElement("div"); bub.className="cmsg-bub";
+    const cursor = document.createElement("span"); cursor.className="cur"; cursor.setAttribute("aria-hidden","true");
+    bub.appendChild(cursor);
+    row.appendChild(av); row.appendChild(bub);
+    D.inner.appendChild(row);
+    scrollBot(false);
+
+    let acc = "";
+    return {
+        row,
+        append(chunk){
+            acc += chunk;
+            bub.innerHTML = renderContent(acc);
+            bub.appendChild(cursor);
+            scrollBot(false);
+        },
+        finalize(){
+            cursor.remove();
+            bub.innerHTML = renderContent(acc);
+            scrollBot(true);
+            return acc;
+        },
+    };
+}
+
+function addChips(afterRow, chips) {
+    const row = document.createElement("div"); row.className="chips-row";
+    chips.forEach(t=>{
+        const c = document.createElement("button"); c.className="s-chip"; c.textContent=t;
+        c.addEventListener("click",()=>{ D.ta.value=t; resizeTa(); D.ta.focus(); });
+        row.appendChild(c);
+    });
+    afterRow.insertAdjacentElement("afterend",row);
+    scrollBot(true);
+}
+
+D.pause.addEventListener("click",()=>{ S.abort&&S.abort.abort(); });
+
+async function sendMsg() {
+    const text = D.ta.value.trim();
+    if (!text) return;
+
+    D.ta.value = ""; resizeTa();
+    S.history.push({role:"user",content:text});
+    addUserMsg(text);
+    setStreaming(true);
+    S.abort = new AbortController();
+
+    const ai = createAiMsg();
+    let final = "";
+
+    try {
+        const resp = await fetch(CFG.API, {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            signal: S.abort.signal,
+            body: JSON.stringify({
+                model:       CFG.MODEL,
+                messages:    S.history,
+                max_tokens:  CFG.MAX_TOKENS,
+                temperature: CFG.TEMPERATURE,
+                stream:      true,
+            }),
+        });
+
+        if (!resp.ok) throw new Error("HTTP "+resp.status+" — "+resp.statusText);
+
+        const reader  = resp.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let   buf     = "";
+
+        outer: while (true) {
+            const {done,value} = await reader.read();
+            if (done) break;
+            buf += decoder.decode(value,{stream:true});
+            const lines = buf.split("\n");
+            buf = lines.pop();
+            for (const line of lines) {
+                const t = line.trim();
+                if (!t || t===":") continue;
+                if (!t.startsWith("data:")) continue;
+                const data = t.slice(5).trim();
+                if (data==="[DONE]") break outer;
+                try {
+                    const p = JSON.parse(data);
+                    const delta = p?.choices?.[0]?.delta?.content;
+                    if (delta) ai.append(delta);
+                    const reason = p?.choices?.[0]?.finish_reason;
+                    if (reason && reason!=="null" && reason!==null) break outer;
+                } catch { }
+            }
+        }
+    } catch(err) {
+        if (err.name !== "AbortError") {
+            ai.append("\n\n\u26A0\uFE0F Error: "+escapeHtml(err.message));
+            console.error("[AskApex]",err);
         }
     }
 
-    function addUserMsg(text) {
-        activateMsgsLayout();
-        const row = document.createElement("div");
-        row.className = "cmsg user";
-        row.innerHTML =
-            '<div class="cmsg-bub">' + renderContent(text) + '</div>' +
-            '<div class="cmsg-av user-av" aria-hidden="true">&#128100;</div>';
-        D.inner.appendChild(row);
-        scrollBot(false);
-    }
+    final = ai.finalize();
+    S.history.push({role:"assistant",content:final});
+    setStreaming(false);
+    S.abort = null;
+    D.ta.focus();
 
-    function createAiMsg() {
-        activateMsgsLayout();
-        const row    = document.createElement("div"); row.className="cmsg ai";
-        row.setAttribute("aria-live","polite");
-        const av     = document.createElement("div"); av.className="cmsg-av ai-av"; av.setAttribute("aria-hidden","true"); av.textContent="\u2B21";
-        const bub    = document.createElement("div"); bub.className="cmsg-bub";
-        const cursor = document.createElement("span"); cursor.className="cur"; cursor.setAttribute("aria-hidden","true");
-        bub.appendChild(cursor);
-        row.appendChild(av); row.appendChild(bub);
-        D.inner.appendChild(row);
-        scrollBot(false);
+    if (CFG.PHASE2 && final) fetchChips(ai.row);
+}
 
-        let acc = "";
-        return {
-            row,
-            append(chunk){
-                acc += chunk;
-                bub.innerHTML = renderContent(acc);
-                bub.appendChild(cursor);
-                scrollBot(false);
-            },
-            finalize(){
-                cursor.remove();
-                bub.innerHTML = renderContent(acc);
-                scrollBot(true);
-                return acc;
-            },
-        };
-    }
+D.send.addEventListener("click",()=>{ if(!S.streaming) sendMsg(); });
 
-    function addChips(afterRow, chips) {
-        const row = document.createElement("div"); row.className="chips-row";
-        chips.forEach(t=>{
-            const c = document.createElement("button"); c.className="s-chip"; c.textContent=t;
-            c.addEventListener("click",()=>{ D.ta.value=t; resizeTa(); D.ta.focus(); });
-            row.appendChild(c);
+async function fetchChips(afterRow) {
+    const prompt =
+        "Based on this conversation, suggest 3 to 5 concise follow-up questions "+
+        "the user might naturally ask next. "+
+        "Return ONLY a JSON array of strings. No markdown, no explanation.";
+    try {
+        const resp = await fetch(CFG.API,{
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                model:CFG.MODEL,
+                messages:[...S.history,{role:"user",content:prompt}],
+                max_tokens:300, temperature:0.5, stream:false,
+            }),
         });
-        afterRow.insertAdjacentElement("afterend",row);
-        scrollBot(true);
-    }
+        if (!resp.ok) return;
+        const j    = await resp.json();
+        const raw  = j?.choices?.[0]?.message?.content??"";
+        const chips = JSON.parse(raw.replace(/```json|```/g,"").trim());
+        if (Array.isArray(chips)&&chips.length) addChips(afterRow,chips);
+    } catch(e){ console.warn("[AskApex] chips:",e); }
+}
 
-    D.pause.addEventListener("click",()=>{ S.abort&&S.abort.abort(); });
+const nav = document.getElementById("nav");
+window.addEventListener("scroll",()=>{
+    nav.classList.toggle("scrolled", window.scrollY > 20);
+},{passive:true});
 
-    async function sendMsg() {
-        const text = D.ta.value.trim();
-        if (!text) return;
+const revEls = document.querySelectorAll(".rev");
+const ro = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); ro.unobserve(e.target); } });
+},{threshold:0.12, rootMargin:"0px 0px -40px 0px"});
+revEls.forEach(el=>ro.observe(el));
 
-        D.ta.value = ""; resizeTa();
-        S.history.push({role:"user",content:text});
-        addUserMsg(text);
-        setStreaming(true);
-        S.abort = new AbortController();
-
-        const ai = createAiMsg();
-        let final = "";
-
-        try {
-            const resp = await fetch(CFG.API, {
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
-                signal: S.abort.signal,
-                body: JSON.stringify({
-                    model:       CFG.MODEL,
-                    messages:    S.history,
-                    max_tokens:  CFG.MAX_TOKENS,
-                    temperature: CFG.TEMPERATURE,
-                    stream:      true,
-                }),
-            });
-
-            if (!resp.ok) throw new Error("HTTP "+resp.status+" — "+resp.statusText);
-
-            const reader  = resp.body.getReader();
-            const decoder = new TextDecoder("utf-8");
-            let   buf     = "";
-
-            outer: while (true) {
-                const {done,value} = await reader.read();
-                if (done) break;
-                buf += decoder.decode(value,{stream:true});
-                const lines = buf.split("\n");
-                buf = lines.pop();
-                for (const line of lines) {
-                    const t = line.trim();
-                    if (!t || t===":") continue;
-                    if (!t.startsWith("data:")) continue;
-                    const data = t.slice(5).trim();
-                    if (data==="[DONE]") break outer;
-                    try {
-                        const p = JSON.parse(data);
-                        const delta = p?.choices?.[0]?.delta?.content;
-                        if (delta) ai.append(delta);
-                        const reason = p?.choices?.[0]?.finish_reason;
-                        if (reason && reason!=="null" && reason!==null) break outer;
-                    } catch { }
-                }
-            }
-        } catch(err) {
-            if (err.name !== "AbortError") {
-                ai.append("\n\n\u26A0\uFE0F Error: "+escapeHtml(err.message));
-                console.error("[AskApex]",err);
-            }
+document.querySelectorAll(".faq-q").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        const item  = btn.closest(".faq-item");
+        const isOpen = item.classList.contains("open");
+        document.querySelectorAll(".faq-item.open").forEach(i=>{
+            i.classList.remove("open");
+            i.querySelector(".faq-q").setAttribute("aria-expanded","false");
+            const a = i.querySelector(".faq-a"); a.hidden=false;
+        });
+        if (!isOpen) {
+            item.classList.add("open");
+            btn.setAttribute("aria-expanded","true");
         }
-
-        final = ai.finalize();
-        S.history.push({role:"assistant",content:final});
-        setStreaming(false);
-        S.abort = null;
-        D.ta.focus();
-
-        if (CFG.PHASE2 && final) fetchChips(ai.row);
-    }
-
-    D.send.addEventListener("click",()=>{ if(!S.streaming) sendMsg(); });
-
-    async function fetchChips(afterRow) {
-        const prompt =
-            "Based on this conversation, suggest 3 to 5 concise follow-up questions "+
-            "the user might naturally ask next. "+
-            "Return ONLY a JSON array of strings. No markdown, no explanation.";
-        try {
-            const resp = await fetch(CFG.API,{
-                method:"POST", headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({
-                    model:CFG.MODEL,
-                    messages:[...S.history,{role:"user",content:prompt}],
-                    max_tokens:300, temperature:0.5, stream:false,
-                }),
-            });
-            if (!resp.ok) return;
-            const j    = await resp.json();
-            const raw  = j?.choices?.[0]?.message?.content??"";
-            const chips = JSON.parse(raw.replace(/```json|```/g,"").trim());
-            if (Array.isArray(chips)&&chips.length) addChips(afterRow,chips);
-        } catch(e){ console.warn("[AskApex] chips:",e); }
-    }
-
-    const nav = document.getElementById("nav");
-    window.addEventListener("scroll",()=>{
-        nav.classList.toggle("scrolled", window.scrollY > 20);
-    },{passive:true});
-
-    const revEls = document.querySelectorAll(".rev");
-    const ro = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); ro.unobserve(e.target); } });
-    },{threshold:0.12, rootMargin:"0px 0px -40px 0px"});
-    revEls.forEach(el=>ro.observe(el));
-
-    document.querySelectorAll(".faq-q").forEach(btn=>{
-        btn.addEventListener("click",()=>{
-            const item  = btn.closest(".faq-item");
-            const isOpen = item.classList.contains("open");
-            document.querySelectorAll(".faq-item.open").forEach(i=>{
-                i.classList.remove("open");
-                i.querySelector(".faq-q").setAttribute("aria-expanded","false");
-                const a = i.querySelector(".faq-a"); a.hidden=false;
-            });
-            if (!isOpen) {
-                item.classList.add("open");
-                btn.setAttribute("aria-expanded","true");
-            }
-        });
     });
+});
 
-    document.addEventListener("keydown", e=>{
-        if (e.key==="Escape" && D.overlay.classList.contains("open")) closeChat();
-    });
+document.addEventListener("keydown", e=>{
+    if (e.key==="Escape" && D.overlay.classList.contains("open")) closeChat();
+});
 </script>
 </body>
 </html>
