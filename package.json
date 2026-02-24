@@ -1,5 +1,5 @@
 {
-	"name": "askapex-website2",
+	"name": "askapex-website",
 	"description": "Cloudflare's native serverless SQL database.",
 	"cloudflare": {
 		"label": "Worker + D1 Database",

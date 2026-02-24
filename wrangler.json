@@ -1,7 +1,7 @@
 {
   "compatibility_date": "2025-10-08",
   "main": "src/index_v3.ts",
-  "name": "askapex-website2",
+  "name": "askapex-website",
   "upload_source_maps": true,
   "vpc_services": [
     {
