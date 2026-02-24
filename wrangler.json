@@ -15,13 +15,11 @@
     "binding": "ASSETS"
     //    "run_worker_first": true
   },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_id": "4b8dbc27-6d3b-4bb2-898a-9f6555354c0a",
-      "database_name": "coin"
-    }
-  ],
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "askapex",
+    "database_id": "6549d8cc-80b0-443b-8797-5dcb8d0359a3"
+  }],
   "observability": {
     "enabled": true
   }
