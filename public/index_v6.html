@@ -412,13 +412,6 @@
         .cnav-logo .nav-logo-ico { width:30px; height:30px; font-size:14px; }
         .cnav-logo span { color:var(--accent2); }
         .cnav-spacer { flex:1; }
-        .cnav-new {
-            display:flex; align-items:center; gap:6px; padding:6px 14px;
-            background:rgba(99,102,241,.12); border:1px solid var(--border-hi);
-            border-radius:var(--r-full); color:var(--accent2); font-size:.78rem; font-weight:600;
-            transition:all .2s;
-        }
-        .cnav-new:hover { background:rgba(99,102,241,.22); transform:scale(1.03); border-color:var(--accent); }
         .cnav-back {
             display:flex; align-items:center; gap:6px; padding:6px 14px;
             background:rgba(99,102,241,.07); border:1px solid var(--border);
@@ -710,6 +703,15 @@
         .c-pause.on { display:flex; }
         .chat-hint-txt { font-size:.75rem; color:var(--text3); }
 
+        .chips-row { display:flex; flex-wrap:wrap; gap:7px; padding:6px 0 2px 42px; animation:msg-in .4s ease; }
+        .s-chip {
+            padding:5px 13px; font-size:.78rem;
+            background:rgba(99,102,241,.08); border:1px solid var(--border-hi);
+            border-radius:var(--r-full); color:var(--accent2); cursor:pointer;
+            transition:background .2s,transform .2s var(--spring);
+        }
+        .s-chip:hover { background:rgba(99,102,241,.18); transform:translateY(-2px); }
+
         .rev { opacity:0; transform:translateY(22px); transition:opacity .65s var(--ease-o),transform .65s var(--ease-o); }
         .rev.in { opacity:1; transform:translateY(0); }
         .rev-d1{transition-delay:.1s} .rev-d2{transition-delay:.2s}
@@ -751,8 +753,8 @@
             <li><a href="#faq">FAQ</a></li>
         </ul>
         <div class="nav-cta">
-            <button class="btn btn-ghost" onclick="openChat()" aria-label="Sign in">Sign in</button>
-            <button class="btn btn-primary" onclick="openChat()" aria-label="Get started free">Get started free</button>
+            <button class="btn btn-ghost" onclick="openChat(null, true)" aria-label="Sign in">Sign in</button>
+            <button class="btn btn-primary" onclick="openChat(null, true)" aria-label="Get started free">Get started free</button>
         </div>
     </div>
 </nav>
@@ -772,7 +774,7 @@
                 queries your data, and delivers institutional-grade analysis — locally, privately, instantly.
             </p>
             <div class="hero-btns rev rev-d3">
-                <button class="btn btn-primary btn-lg" onclick="openChat()">⚡ Try AskApex Free</button>
+                <button class="btn btn-primary btn-lg" onclick="openChat(null, true)">⚡ Try AskApex Free</button>
                 <a href="#how" class="btn btn-outline btn-lg">See how it works</a>
             </div>
             <div class="hero-chat rev rev-d4" role="search" aria-label="Ask AskApex">
@@ -793,7 +795,7 @@
                 <div class="hero-mock">
                     <div class="mock-bar">
                         <div class="mock-dots"><i></i><i></i><i></i></div>
-                        <div class="mock-bar-url">askapex.io · AskApex AI</div>
+                        <div class="mock-bar-url">askapex.ia · AskApex AI</div>
                     </div>
                     <div class="mock-body">
                         <div class="mock-row user">
@@ -971,7 +973,7 @@
                         <li class="off">Backtesting engine</li>
                         <li class="off">Priority support</li>
                     </ul>
-                    <button class="btn btn-outline p-cta" onclick="openChat()">Get started free</button>
+                    <button class="btn btn-outline p-cta" onclick="openChat(null, true)">Get started free</button>
                 </div>
                 <div class="p-card featured rev rev-d1">
                     <span class="p-popular">Most Popular</span>
@@ -988,7 +990,7 @@
                         <li>Backtesting engine</li>
                         <li>Email support</li>
                     </ul>
-                    <button class="btn btn-primary p-cta" onclick="openChat()">Start Pro trial</button>
+                    <button class="btn btn-primary p-cta" onclick="openChat(null, true)">Start Pro trial</button>
                 </div>
                 <div class="p-card rev rev-d2">
                     <div class="p-tier">Enterprise</div>
@@ -1004,7 +1006,7 @@
                         <li>White-label option</li>
                         <li>Dedicated support</li>
                     </ul>
-                    <button class="btn btn-outline p-cta" onclick="openChat()">Contact sales</button>
+                    <button class="btn btn-outline p-cta" onclick="openChat(null, true)">Contact sales</button>
                 </div>
             </div>
         </div>
@@ -1072,7 +1074,7 @@
             <h2 id="cta-heading">Start asking smarter<br>questions today</h2>
             <p>Join traders and analysts who've stopped guessing and started knowing. No credit card required.</p>
             <div class="cta-btns">
-                <button class="btn btn-primary btn-lg" onclick="openChat()">⚡ Launch AskApex Free</button>
+                <button class="btn btn-primary btn-lg" onclick="openChat(null, true)">⚡ Launch AskApex Free</button>
                 <a href="#features" class="btn btn-outline btn-lg">Learn more</a>
             </div>
         </div>
@@ -1099,7 +1101,6 @@
             <span>Ask<span>Apex</span></span>
         </div>
         <div class="cnav-spacer"></div>
-        <button class="cnav-new" id="new-chat-btn" aria-label="Start new chat">+ New Chat</button>
         <button class="cnav-back" onclick="closeChat()" aria-label="Back to home page">← Back to home</button>
     </nav>
 
@@ -1129,21 +1130,20 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════════════
-   AskApex v55 — Orchestrator Gateway Protocol
-   Base URL: https://lab.askapex.ai
-   Protocol: Custom (not OpenAI-compatible)
-═══════════════════════════════════════════════════════════════════════ */
 const CFG = {
-    BASE_URL: "https://lab.askapex.ai",
+    API_BASE:                    "https://lab.askapex.ai",
+    GET_CONVERSATION_ID_PATH:    "/get_conversation_id",
+    MODEL:                       "/root/models/qwen3-30B-A3B-GPTQ-Int4",
+    MAX_TOKENS:                  2048,
+    TEMPERATURE:                 0.7,
+    PHASE2:                      false,
 };
-
 const S = {
-    conversation_id: null,
+    history:         [],
     streaming:       false,
     abort:           null,
+    conversationId:  null,
 };
-
 const $  = id => document.getElementById(id);
 const D  = {
     overlay:  $("chat-overlay"),
@@ -1154,34 +1154,127 @@ const D  = {
     send:     $("c-send"),
     pause:    $("c-pause"),
     hint:     $("chat-hint"),
-    newChat:  $("new-chat-btn"),
     heroTa:   $("hero-ta"),
     heroSend: $("hero-send"),
 };
+
+
+function AskApex_NormalizeConversationId(raw) {
+    const t = (raw || "").trim();
+    if (!t) return "";
+    if (t[0] === "{") {
+        try {
+            const j = JSON.parse(t);
+            const id = (j && (j.conversation_id || j.conversationId || j.id)) ? String(j.conversation_id || j.conversationId || j.id) : "";
+            return id.trim();
+        } catch {
+            return "";
+        }
+    }
+    return t;
+}
+
+function AskApex_LoadConversationId() {
+    try {
+        const v = sessionStorage.getItem("askapex_conversation_id");
+        if (v && v.length > 0) return v;
+    } catch { }
+    return null;
+}
+
+function AskApex_SaveConversationId(id) {
+    try {
+        sessionStorage.setItem("askapex_conversation_id", id);
+    } catch { }
+}
+
+function AskApex_ClearConversationId() {
+    try {
+        sessionStorage.removeItem("askapex_conversation_id");
+    } catch { }
+}
+
+async function AskApex_GetConversationId() {
+    const url = CFG.API_BASE + CFG.GET_CONVERSATION_ID_PATH;
+    const resp = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Accept": "text/plain",
+        },
+    });
+
+    if (!resp.ok) {
+        throw new Error("HTTP " + resp.status + " — " + resp.statusText);
+    }
+
+    const raw = await resp.text();
+    const id = AskApex_NormalizeConversationId(raw);
+
+    if (!id) {
+        throw new Error("Invalid conversation_id response");
+    }
+
+    return id;
+}
+
+async function AskApex_EnsureConversationId() {
+    if (S.conversationId) {
+        return S.conversationId;
+    }
+
+    const cached = AskApex_LoadConversationId();
+    if (cached) {
+        S.conversationId = cached;
+        return S.conversationId;
+    }
+
+    S.conversationId = await AskApex_GetConversationId();
+    AskApex_SaveConversationId(S.conversationId);
+    return S.conversationId;
+}
+
+function AskApex_ResetConversationUI() {
+    S.history = [];
+    S.conversationId = null;
+    AskApex_ClearConversationId();
+
+    if (D.inner) {
+        D.inner.innerHTML = "";
+    }
+
+    D.overlay.classList.remove("has-msgs");
+    D.msgs.scrollTo({ top: 0, behavior: "instant" });
+}
+
 
 /* ══════════════════════════════════════════════════════════════════
    ENHANCED MARKDOWN RENDERER - HANDLES HTML + MARKDOWN
 ══════════════════════════════════════════════════════════════════ */
 function renderContent(raw) {
+    // Step 1: Protect code blocks first
     const codeBlocks = [];
     let content = raw.replace(/```([\s\S]*?)```/g, (_, inner) => {
         codeBlocks.push('<pre><code>' + escapeHtml(inner.trim()) + '</code></pre>');
         return '\x00CODE' + (codeBlocks.length - 1) + '\x00';
     });
 
+    // Step 2: Protect inline code
     const inlineCodes = [];
     content = content.replace(/`([^`\n]+)`/g, (_, c) => {
         inlineCodes.push('<code>' + escapeHtml(c) + '</code>');
         return '\x00INLINE' + (inlineCodes.length - 1) + '\x00';
     });
 
+    // Step 3: Apply markdown transformations (bold, italic)
     content = content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     content = content.replace(/\*(.+?)\*/g, '<em>$1</em>');
     content = content.replace(/\b_(.+?)_\b/g, '<em>$1</em>');
     content = content.replace(/__(.+?)__/g, '<strong>$1</strong>');
 
+    // Step 4: Handle line breaks - convert \n to <br>, but be smart about it
     content = content.replace(/\n/g, '<br>');
 
+    // Step 5: Restore protected content (code blocks and inline code)
     content = content.replace(/\x00CODE(\d+)\x00/g, (_, i) => codeBlocks[parseInt(i)]);
     content = content.replace(/\x00INLINE(\d+)\x00/g, (_, i) => inlineCodes[parseInt(i)]);
 
@@ -1194,54 +1287,15 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   ORCHESTRATOR GATEWAY PROTOCOL
-═══════════════════════════════════════════════════════════════════════ */
-
-async function getConversationId() {
-    try {
-        const resp = await fetch(CFG.BASE_URL + "/get_conversation_id", {
-            method: "GET"
-        });
-        
-        if (!resp.ok) {
-            throw new Error(`HTTP ${resp.status} — ${resp.statusText}`);
-        }
-        
-        const text = await resp.text();
-        const trimmed = text.trim();
-        
-        // Handle both plain UUID and JSON response
-        if (trimmed.startsWith('{')) {
-            const json = JSON.parse(trimmed);
-            return json.conversation_id;
-        } else {
-            return trimmed;
-        }
-    } catch (err) {
-        console.error("[AskApex] Failed to get conversation_id:", err);
-        showError("Failed to start new chat: " + err.message);
-        return null;
-    }
-}
-
-async function ensureConversationId() {
-    if (!S.conversation_id) {
-        S.conversation_id = await getConversationId();
-    }
-    return S.conversation_id;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   UI FUNCTIONS
-═══════════════════════════════════════════════════════════════════════ */
-
-function openChat(initialText) {
+function openChat(initialText, startFresh) {
     document.body.classList.add("chat-open");
     D.overlay.classList.add("open");
     D.overlay.setAttribute("aria-hidden","false");
     document.getElementById("nav").style.opacity = "";
     setTimeout(()=>{ D.ta.focus(); },500);
+    if (startFresh) {
+        AskApex_ResetConversationUI();
+    }
     if (initialText) {
         D.ta.value = initialText;
         resizeTa();
@@ -1254,23 +1308,9 @@ function closeChat() {
     document.body.classList.remove("chat-open");
 }
 
-async function newChat() {
-    // Clear current conversation
-    S.conversation_id = null;
-    D.inner.innerHTML = '';
-    D.overlay.classList.remove("has-msgs");
-    
-    // Get new conversation_id
-    const convId = await getConversationId();
-    if (convId) {
-        S.conversation_id = convId;
-        console.log("[AskApex] New chat started:", convId);
-    }
-}
-
 function heroSend() {
     const t = D.heroTa ? D.heroTa.value.trim() : "";
-    openChat(t || "");
+    openChat(t || "", true);
     if (t) setTimeout(sendMsg, 550);
 }
 
@@ -1279,7 +1319,6 @@ D.heroTa && D.heroTa.addEventListener("keydown", e=>{
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); heroSend(); }
 });
 D.heroTa && D.heroTa.addEventListener("input", ()=>{ resizeHeroTa(); });
-D.newChat && D.newChat.addEventListener("click", newChat);
 
 function resizeHeroTa() {
     if (!D.heroTa) return;
@@ -1296,7 +1335,7 @@ D.ta.addEventListener("input",()=>{
     const rem = 4000 - D.ta.value.length;
     D.hint.textContent = rem < 400
         ? rem+" characters remaining"
-        : "Press Enter to send · Shift+Enter for new line";
+        : "Press Enter to send \u00b7 Shift+Enter for new line";
 });
 D.ta.addEventListener("keydown",e=>{
     if (e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); if(!S.streaming) sendMsg(); }
@@ -1358,123 +1397,96 @@ function createAiMsg() {
             scrollBot(true);
             return acc;
         },
-        error(msg){
-            cursor.remove();
-            bub.innerHTML = '<span style="color:var(--red)">⚠️ ' + escapeHtml(msg) + '</span>';
-            scrollBot(true);
-        },
     };
 }
 
-function showError(msg) {
-    const row = document.createElement("div");
-    row.className = "cmsg ai";
-    row.innerHTML =
-        '<div class="cmsg-av ai-av" aria-hidden="true">⚠️</div>' +
-        '<div class="cmsg-bub" style="color:var(--red);border-color:var(--red);">' + 
-        escapeHtml(msg) + '</div>';
-    D.inner.appendChild(row);
+function addChips(afterRow, chips) {
+    const row = document.createElement("div"); row.className="chips-row";
+    chips.forEach(t=>{
+        const c = document.createElement("button"); c.className="s-chip"; c.textContent=t;
+        c.addEventListener("click",()=>{ D.ta.value=t; resizeTa(); D.ta.focus(); });
+        row.appendChild(c);
+    });
+    afterRow.insertAdjacentElement("afterend",row);
     scrollBot(true);
 }
 
 D.pause.addEventListener("click",()=>{ S.abort&&S.abort.abort(); });
 
-/* ═══════════════════════════════════════════════════════════════════════
-   SEND MESSAGE - ORCHESTRATOR GATEWAY PROTOCOL
-═══════════════════════════════════════════════════════════════════════ */
 async function sendMsg() {
     const text = D.ta.value.trim();
     if (!text) return;
 
-    // Clear input
     D.ta.value = "";
     resizeTa();
 
-    // Ensure we have a conversation_id
-    const convId = await ensureConversationId();
-    if (!convId) {
-        showError("Failed to start chat session");
-        return;
-    }
-
-    // Add user message to UI
+    S.history.push({ role: "user", content: text });
     addUserMsg(text);
+
     setStreaming(true);
     S.abort = new AbortController();
 
-    // Create AI message placeholder
     const ai = createAiMsg();
-    let streamComplete = false;
 
     try {
-        // POST raw text to /{conversation_id}
-        const resp = await fetch(`${CFG.BASE_URL}/AskApexChat/${convId}`, {
+        const convId = await AskApex_EnsureConversationId();
+        const url = CFG.API_BASE + "/" + convId;
+
+        const resp = await fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "text/plain; charset=utf-8"
+                "Content-Type": "text/plain; charset=utf-8",
+                "Accept": "text/event-stream",
             },
             signal: S.abort.signal,
-            body: text
+            body: text,
         });
 
-        if (!resp.ok) {
-            throw new Error(`HTTP ${resp.status} — ${resp.statusText}`);
-        }
+        if (!resp.ok) throw new Error("HTTP " + resp.status + " — " + resp.statusText);
 
-        // Stream response (text/event-stream)
-        const reader  = resp.body.getReader();
+        const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
-        let   buf     = "";
+        let buf = "";
 
         outer: while (true) {
-            const {done,value} = await reader.read();
+            const { done, value } = await reader.read();
             if (done) break;
-            
-            buf += decoder.decode(value,{stream:true});
-            const lines = buf.split("\n");
+
+            buf += decoder.decode(value, { stream: true });
+
+            const lines = buf.split("
+");
             buf = lines.pop();
-            
+
             for (const line of lines) {
                 const t = line.trim();
-                if (!t || t===":") continue;
+                if (!t || t === ":") continue;
                 if (!t.startsWith("data:")) continue;
-                
+
                 const data = t.slice(5).trim();
-                if (data==="[DONE]") {
-                    streamComplete = true;
-                    break outer;
-                }
-                
+                if (data === "[DONE]") break outer;
+
                 try {
                     const p = JSON.parse(data);
                     const delta = p?.choices?.[0]?.delta?.content;
                     if (delta) ai.append(delta);
-                    
+
                     const reason = p?.choices?.[0]?.finish_reason;
-                    if (reason && reason!=="null" && reason!==null) {
-                        streamComplete = true;
-                        break outer;
-                    }
-                } catch (parseErr) {
-                    console.warn("[AskApex] JSON parse error:", parseErr);
-                }
+                    if (reason && reason !== "null" && reason !== null) break outer;
+                } catch { }
             }
         }
-    } catch(err) {
+    } catch (err) {
         if (err.name !== "AbortError") {
+            ai.append("
+
+⚠️ Error: " + escapeHtml(err.message));
             console.error("[AskApex]", err);
-            ai.error(err.message);
-        } else {
-            streamComplete = true;
         }
     }
 
-    // Finalize assistant message
-    if (!streamComplete) {
-        ai.error("Connection lost — response incomplete");
-    } else {
-        ai.finalize();
-    }
+    const final = ai.finalize();
+    S.history.push({ role: "assistant", content: final });
 
     setStreaming(false);
     S.abort = null;
@@ -1483,9 +1495,13 @@ async function sendMsg() {
 
 D.send.addEventListener("click",()=>{ if(!S.streaming) sendMsg(); });
 
-/* ═══════════════════════════════════════════════════════════════════════
-   SCROLL REVEAL & FAQ
-═══════════════════════════════════════════════════════════════════════ */
+
+D.send.addEventListener("click",()=>{ if(!S.streaming) sendMsg(); });
+
+async function fetchChips(afterRow) {
+    return;
+}
+
 const nav = document.getElementById("nav");
 window.addEventListener("scroll",()=>{
     nav.classList.toggle("scrolled", window.scrollY > 20);
@@ -1504,13 +1520,11 @@ document.querySelectorAll(".faq-q").forEach(btn=>{
         document.querySelectorAll(".faq-item.open").forEach(i=>{
             i.classList.remove("open");
             i.querySelector(".faq-q").setAttribute("aria-expanded","false");
-            const a = i.querySelector(".faq-a"); a.hidden=true;
+            const a = i.querySelector(".faq-a"); a.hidden=false;
         });
         if (!isOpen) {
             item.classList.add("open");
             btn.setAttribute("aria-expanded","true");
-            const a = item.querySelector(".faq-a");
-            a.hidden = false;
         }
     });
 });
